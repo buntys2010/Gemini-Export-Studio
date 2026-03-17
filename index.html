@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gemini Export Studio — Export Any Gemini Chat. Any Format.</title>
+  <meta name="description" content="Export your Gemini AI conversations to PDF, Markdown, JSON, CSV, Plain Text, or Image — 100% locally, no servers, no accounts required." />
+  <meta name="keywords" content="Gemini export, AI chat export, Chrome extension, PDF export, Markdown export, privacy-first" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Gemini Export Studio" />
+  <meta property="og:description" content="Export any Gemini conversation. Any format. Zero data leaves your device." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/Gemini_Generated_Image_rxt1oarxt1oarxt1_with_bgc.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png" />
+  <link rel="icon" type="image/png" sizes="128x128" href="icons/icon128.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0f0f1a',
+            surface: '#13131f',
+            surface2: '#1a1a2e',
+            border: '#2a2a45',
+            primary: '#6366f1',
+            violet: '#8b5cf6',
+            cyan: '#06b6d4',
+            textPrimary: '#f1f5f9',
+            textMuted: '#94a3b8',
+            success: '#10b981',
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: #0f0f1a;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0f0f1a; }
+    ::-webkit-scrollbar-thumb { background: #2a2a45; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text-white {
+      background: linear-gradient(135deg, #ffffff 0%, #c7d2fe 50%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Glassmorphism */
+    .glass {
+      background: rgba(19, 19, 31, 0.8);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(42, 42, 69, 0.8);
+    }
+
+    .glass-card {
+      background: rgba(26, 26, 46, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(42, 42, 69, 0.6);
+      transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.1), 0 8px 32px rgba(0,0,0,0.4);
+      transform: translateY(-4px);
+    }
+
+    /* Glow button */
+    .btn-glow {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), 0 4px 16px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+
+    .btn-glow:hover {
+      box-shadow: 0 0 40px rgba(99, 102, 241, 0.6), 0 8px 24px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(42, 42, 69, 0.8);
+      transition: all 0.3s ease;
+    }
+
+    .btn-ghost:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+      background: rgba(99, 102, 241, 0.08);
+    }
+
+    /* Background grid pattern */
+    .bg-grid {
+      background-image:
+        linear-gradient(rgba(42, 42, 69, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(42, 42, 69, 0.3) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Orb glow */
+    .orb {
+      border-radius: 50%;
+      filter: blur(80px);
+      position: absolute;
+      pointer-events: none;
+    }
+
+    /* Hero image glow */
+    .hero-image-glow {
+      box-shadow:
+        0 0 60px rgba(99, 102, 241, 0.3),
+        0 0 120px rgba(99, 102, 241, 0.15),
+        0 32px 64px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Nav frosted */
+    nav.scrolled {
+      background: rgba(15, 15, 26, 0.9) !important;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(42, 42, 69, 0.8);
+    }
+
+    /* Scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* FAQ accordion */
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+
+    .faq-answer.open {
+      max-height: 500px;
+    }
+
+    .faq-arrow {
+      transition: transform 0.3s ease;
+    }
+
+    .faq-arrow.open {
+      transform: rotate(180deg);
+    }
+
+    /* Format badge pill */
+    .format-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: #a5b4fc;
+      transition: all 0.2s ease;
+    }
+
+    .format-pill:hover {
+      background: rgba(99, 102, 241, 0.2);
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+
+    /* Stat pill */
+    .stat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(19, 19, 31, 0.8);
+      border: 1px solid rgba(42, 42, 69, 0.8);
+      border-radius: 999px;
+      white-space: nowrap;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    /* Step connector */
+    .step-line {
+      position: absolute;
+      top: 28px;
+      left: calc(50% + 28px);
+      right: calc(-50% + 28px);
+      height: 1px;
+      background: linear-gradient(90deg, rgba(99, 102, 241, 0.5), rgba(99, 102, 241, 0.1));
+    }
+
+    /* Active nav link */
+    .nav-link.active {
+      color: #6366f1;
+    }
+
+    /* Compliance badge */
+    .compliance-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(16, 185, 129, 0.08);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #34d399;
+    }
+
+    /* Hero floating badge */
+    .floating-badge {
+      position: absolute;
+      background: rgba(19, 19, 31, 0.95);
+      border: 1px solid rgba(42, 42, 69, 0.9);
+      border-radius: 12px;
+      padding: 10px 14px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    @media (max-width: 768px) {
+      .step-line { display: none; }
+    }
+  </style>
+</head>
+<body class="bg-grid">
+
+  <!-- Background orbs -->
+  <div class="orb w-96 h-96 bg-indigo-600 opacity-10 top-0 left-1/4" style="position:fixed;z-index:0;"></div>
+  <div class="orb w-80 h-80 bg-violet-600 opacity-8 top-1/2 right-1/4" style="position:fixed;z-index:0;filter:blur(100px);"></div>
+
+  <!-- ===== NAV ===== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:transparent;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <img src="icons/icon32.png" alt="Gemini Export Studio" class="w-8 h-8" />
+          <span class="font-bold text-lg text-textPrimary group-hover:text-primary transition-colors">
+            Gemini <span class="gradient-text">Export Studio</span>
+          </span>
+        </a>
+
+        <!-- Desktop nav links -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#features" class="nav-link text-sm text-textMuted hover:text-textPrimary transition-colors">Features</a>
+          <a href="#formats" class="nav-link text-sm text-textMuted hover:text-textPrimary transition-colors">Formats</a>
+          <a href="#privacy" class="nav-link text-sm text-textMuted hover:text-textPrimary transition-colors">Privacy</a>
+          <a href="#faq" class="nav-link text-sm text-textMuted hover:text-textPrimary transition-colors">FAQ</a>
+          <a href="privacy.html" class="nav-link text-sm text-textMuted hover:text-textPrimary transition-colors">Privacy Policy</a>
+        </div>
+
+        <!-- CTA -->
+        <div class="hidden md:flex items-center gap-3">
+          <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer"
+            class="btn-glow text-white text-sm font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/>
+            </svg>
+            Add to Chrome — Free
+          </a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="hamburger" class="md:hidden text-textMuted hover:text-textPrimary p-2" aria-label="Menu">
+          <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="md:hidden hidden pb-4 border-t border-border mt-2 pt-4">
+        <div class="flex flex-col gap-4">
+          <a href="#features" class="text-sm text-textMuted hover:text-textPrimary transition-colors">Features</a>
+          <a href="#formats" class="text-sm text-textMuted hover:text-textPrimary transition-colors">Formats</a>
+          <a href="#privacy" class="text-sm text-textMuted hover:text-textPrimary transition-colors">Privacy</a>
+          <a href="#faq" class="text-sm text-textMuted hover:text-textPrimary transition-colors">FAQ</a>
+          <a href="privacy.html" class="text-sm text-textMuted hover:text-textPrimary transition-colors">Privacy Policy</a>
+          <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer"
+            class="btn-glow text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">
+            Add to Chrome — Free
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section id="hero" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+    <!-- Radial gradient backdrop -->
+    <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(99,102,241,0.15) 0%, transparent 70%);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+        <!-- Left: Copy -->
+        <div class="reveal">
+          <!-- Eyebrow badge -->
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 mb-6">
+            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            <span class="text-xs font-mono text-indigo-400 font-medium">Chrome Extension · v1.0.0 · Free</span>
+          </div>
+
+          <!-- H1 -->
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.08] tracking-tight mb-6">
+            Export Your Gemini Chats.<br />
+            <span class="gradient-text">Any Format. Zero Servers.</span>
+          </h1>
+
+          <!-- Subheadline -->
+          <p class="text-lg text-textMuted leading-relaxed mb-8 max-w-xl">
+            The only Chrome extension that exports your Gemini AI conversations to PDF, Markdown, JSON, CSV, Plain Text, or Image — completely locally, with no account required.
+          </p>
+
+          <!-- Format pills -->
+          <div class="flex flex-wrap gap-2 mb-10">
+            <span class="format-pill">📄 PDF</span>
+            <span class="format-pill">⬇️ Markdown</span>
+            <span class="format-pill">📝 Plain Text</span>
+            <span class="format-pill">{ } JSON</span>
+            <span class="format-pill">📊 CSV</span>
+            <span class="format-pill">🖼️ Image</span>
+          </div>
+
+          <!-- CTA buttons -->
+          <div class="flex flex-col sm:flex-row gap-4 mb-8">
+            <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer"
+              class="btn-glow text-white font-bold px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-3 text-base">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/>
+              </svg>
+              Add to Chrome — Free
+            </a>
+            <a href="#features"
+              class="btn-ghost text-textPrimary font-semibold px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-2 text-base">
+              See Features
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </a>
+          </div>
+
+          <!-- Trust line -->
+          <div class="flex items-center gap-2 text-sm text-textMuted">
+            <svg class="w-4 h-4 text-success flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <span>Zero data leaves your device · No account needed · GDPR ready</span>
+          </div>
+        </div>
+
+        <!-- Right: Product image -->
+        <div class="reveal-right relative flex justify-center lg:justify-end">
+          <div class="relative" style="transform: rotate(2deg);">
+            <img
+              src="assets/Gemini_Generated_Image_rxt1oarxt1oarxt1_with_bgc.png"
+              alt="Gemini Export Studio interface"
+              class="hero-image-glow rounded-2xl w-full max-w-lg"
+              loading="eager"
+            />
+            <!-- Floating overlay badge -->
+            <div class="floating-badge" style="bottom: -16px; left: -24px; transform: rotate(-1deg);">
+              <img
+                src="assets/Gemini_Generated_Image_jzkklgjzkklgjzkk_with_bgc.png"
+                alt="Export format options"
+                class="rounded-xl w-40 sm:w-48"
+                loading="eager"
+              />
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== OVERVIEW BANNER ===== -->
+  <section class="py-16 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="reveal mb-10">
+        <img
+          src="assets/Gemini_Generated_Image_94undh94undh94un_with_bgc.png"
+          alt="Gemini Export Studio overview"
+          class="w-full rounded-2xl border border-border"
+          style="box-shadow: 0 0 40px rgba(99,102,241,0.1), 0 24px 48px rgba(0,0,0,0.4);"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- Stats row -->
+      <div class="reveal flex flex-wrap justify-center gap-3">
+        <div class="stat-pill">
+          <span class="text-primary font-mono font-bold">6</span>
+          <span class="text-textMuted">Export Formats</span>
+        </div>
+        <div class="stat-pill">
+          <span class="text-success font-mono font-bold">100%</span>
+          <span class="text-textMuted">Local Processing</span>
+        </div>
+        <div class="stat-pill">
+          <span class="text-violet font-mono font-bold">20+</span>
+          <span class="text-textMuted">Merged Chats</span>
+        </div>
+        <div class="stat-pill">
+          <svg class="w-4 h-4 text-cyan" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/></svg>
+          <span class="text-textMuted">gemini.google.com</span>
+        </div>
+        <div class="stat-pill">
+          <span class="text-success font-mono font-bold">✓</span>
+          <span class="text-textMuted">GDPR Ready</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURE BLOCKS ===== -->
+  <section id="features" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Section header -->
+      <div class="text-center mb-20 reveal">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 mb-4">
+          <span class="text-xs font-mono text-indigo-400 font-medium">Everything You Need</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-textPrimary mb-4">Powerful Features. Simple Interface.</h2>
+        <p class="text-textMuted max-w-2xl mx-auto">Every feature built with one principle: your data stays yours.</p>
+      </div>
+
+      <!-- Feature 1: 6 Export Formats (image right) -->
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
+        <div class="reveal-left order-2 lg:order-1">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-4">
+            <span class="text-xs font-mono text-indigo-400">Export Formats</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">6 Formats. Every Use Case Covered.</h2>
+          <p class="text-textMuted mb-6 leading-relaxed">Whether you need a polished document, a developer-friendly data file, or a shareable image — we have the format for you. Export individual turns or entire conversations with a single click.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span><strong class="text-textPrimary">PDF</strong> — Publication-ready with preserved formatting and headers</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span><strong class="text-textPrimary">Markdown</strong> — Perfect for notes apps like Obsidian, Notion, Bear</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span><strong class="text-textPrimary">JSON</strong> — Structured data with full metadata for developers</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span><strong class="text-textPrimary">CSV, Plain Text, Image</strong> — For every other workflow</span></li>
+          </ul>
+        </div>
+        <div class="reveal-right order-1 lg:order-2">
+          <img src="assets/Gemini_Generated_Image_jzkklgjzkklgjzkk_with_bgc.png" alt="6 export formats" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(99,102,241,0.08),0 16px 40px rgba(0,0,0,0.4);" />
+        </div>
+      </div>
+
+      <!-- Feature 2: Local Processing (image left) -->
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
+        <div class="reveal-left">
+          <img src="assets/Gemini_Generated_Image_rtx4xortx4xortx4_with_bgc.png" alt="100% local processing" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(16,185,129,0.08),0 16px 40px rgba(0,0,0,0.4);" />
+        </div>
+        <div class="reveal-right">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4">
+            <span class="text-xs font-mono text-emerald-400">100% Local</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Your Conversations Never Leave Your Device.</h2>
+          <p class="text-textMuted mb-6 leading-relaxed">All processing happens entirely in your browser. No servers receive your chat data. No API calls with your content. No logging, no telemetry, no analytics on your conversations.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-success mt-0.5">▸</span><span>All export logic runs in the Chrome extension sandbox</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-success mt-0.5">▸</span><span>PDF generation uses client-side libraries (jsPDF + html2canvas)</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-success mt-0.5">▸</span><span>Image capture is done via browser screenshot APIs</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-success mt-0.5">▸</span><span>No account, login, or subscription ever required</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature 3: Deep Research (image right) -->
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
+        <div class="reveal-left order-2 lg:order-1">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-4">
+            <span class="text-xs font-mono text-cyan-400">Deep Research</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Export Deep Research with Full Citations.</h2>
+          <p class="text-textMuted mb-6 leading-relaxed">Gemini's Deep Research mode generates comprehensive reports with citations. Export them fully intact — sources, links, and all — in any format you need.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Preserves all source links and citations</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Maintains original document structure and sections</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Export research reports as professional PDFs</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>JSON output for programmatic citation processing</span></li>
+          </ul>
+        </div>
+        <div class="reveal-right order-1 lg:order-2">
+          <img src="assets/Gemini_Generated_Image_qg90rbqg90rbqg90_with_bgc.png" alt="Deep research export with citations" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(6,182,212,0.08),0 16px 40px rgba(0,0,0,0.4);" />
+        </div>
+      </div>
+
+      <!-- Feature 4: PII Scrubbing (image left) -->
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
+        <div class="reveal-left">
+          <img src="assets/Gemini_Generated_Image_r3b8oar3b8oar3b8_with_bgc.png" alt="PII scrubbing and data safety" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(139,92,246,0.08),0 16px 40px rgba(0,0,0,0.4);" />
+        </div>
+        <div class="reveal-right">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 mb-4">
+            <span class="text-xs font-mono text-violet-400">PII Scrubbing</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Redact Sensitive Data Before Sharing.</h2>
+          <p class="text-textMuted mb-6 leading-relaxed">Automatically detect and redact personally identifiable information before exporting. Share your AI conversations safely without leaking names, emails, or phone numbers.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Detects emails, phone numbers, names, and addresses</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Redaction preview before finalizing export</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Custom redaction rules for your specific data patterns</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Enterprise-ready compliance export workflow</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature 5: Merge Multiple Chats (image right) -->
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
+        <div class="reveal-left order-2 lg:order-1">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-4">
+            <span class="text-xs font-mono text-indigo-400">Chat Merging</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Merge Up to 20 Chats Into One Document.</h2>
+          <p class="text-textMuted mb-6 leading-relaxed">Research a topic across multiple Gemini conversations? Merge them into a single, well-structured document. Perfect for compiling research, project notes, or building knowledge bases.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span>Queue up to 20 conversations for merging</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span>Drag-to-reorder merge sequence</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span>Smart deduplication of repeated context</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span>Merge queue saved between browser sessions</span></li>
+          </ul>
+        </div>
+        <div class="reveal-right order-1 lg:order-2">
+          <img src="assets/Gemini_Generated_Image_rvuvu7rvuvu7rvuv_with_bgc.png" alt="Merge multiple chats" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(99,102,241,0.08),0 16px 40px rgba(0,0,0,0.4);" />
+        </div>
+      </div>
+
+      <!-- Feature 6: Cloud Sync (image left) -->
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
+        <div class="reveal-left">
+          <img src="assets/Gemini_Generated_Image_o3h6gmo3h6gmo3h6_with_bgc.png" alt="Google Drive and Obsidian sync" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(6,182,212,0.08),0 16px 40px rgba(0,0,0,0.4);" />
+        </div>
+        <div class="reveal-right">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-4">
+            <span class="text-xs font-mono text-cyan-400">Cloud Sync</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Sync to Google Drive or Your Obsidian Vault.</h2>
+          <p class="text-textMuted mb-6 leading-relaxed">Connect your Google Drive or local Obsidian vault to automatically save exported conversations. Your AI research becomes a living part of your personal knowledge base.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>One-click Google Drive integration with OAuth</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Auto-organize into folders by date or topic</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Obsidian-compatible Markdown with YAML frontmatter</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>File naming templates you control</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Feature 7: Document Customization (image right) -->
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div class="reveal-left order-2 lg:order-1">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 mb-4">
+            <span class="text-xs font-mono text-violet-400">Customization</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Make Every Export Look Exactly Right.</h2>
+          <p class="text-textMuted mb-6 leading-relaxed">Customize fonts, colors, headers, footers, and layouts for your exports. Create templates for different use cases — client reports, personal notes, or academic research.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Custom PDF page sizes, fonts, and margins</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Add your logo or branding to exported documents</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Save templates for repeated workflows</span></li>
+            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Timestamp and title formatting options</span></li>
+          </ul>
+        </div>
+        <div class="reveal-right order-1 lg:order-2">
+          <img src="assets/Gemini_Generated_Image_1t7rv91t7rv91t7r_with_bgc.png" alt="Document customization" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(139,92,246,0.08),0 16px 40px rgba(0,0,0,0.4);" />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FORMAT SHOWCASE GRID ===== -->
+  <section id="formats" class="py-20" style="background: linear-gradient(180deg, transparent 0%, rgba(99,102,241,0.03) 50%, transparent 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-14 reveal">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 mb-4">
+          <span class="text-xs font-mono text-indigo-400 font-medium">Export Formats</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-textPrimary mb-4">Six Formats for Every Workflow</h2>
+        <p class="text-textMuted max-w-xl mx-auto">One extension. Every format you'll ever need for your Gemini conversations.</p>
+      </div>
+
+      <div id="formats-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+        <!-- PDF -->
+        <div class="glass-card rounded-2xl p-6 reveal format-card">
+          <div class="text-4xl mb-4">📄</div>
+          <div class="font-mono text-lg font-bold text-textPrimary mb-2">PDF</div>
+          <p class="text-textMuted text-sm mb-4 leading-relaxed">Publication-ready documents with preserved formatting, code blocks, and headers.</p>
+          <span class="inline-block text-xs px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-mono">Best for: Reports, documentation, sharing</span>
+        </div>
+
+        <!-- Markdown -->
+        <div class="glass-card rounded-2xl p-6 reveal format-card">
+          <div class="text-4xl mb-4">⬇️</div>
+          <div class="font-mono text-lg font-bold text-textPrimary mb-2">Markdown</div>
+          <p class="text-textMuted text-sm mb-4 leading-relaxed">Clean .md files compatible with Obsidian, Notion, Bear, GitHub, and any note-taking app.</p>
+          <span class="inline-block text-xs px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-mono">Best for: Note-taking, PKM, developers</span>
+        </div>
+
+        <!-- Plain Text -->
+        <div class="glass-card rounded-2xl p-6 reveal format-card">
+          <div class="text-4xl mb-4">📝</div>
+          <div class="font-mono text-lg font-bold text-textPrimary mb-2">Plain Text</div>
+          <p class="text-textMuted text-sm mb-4 leading-relaxed">Simple, universal .txt format. Works everywhere, forever. No formatting baggage.</p>
+          <span class="inline-block text-xs px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-mono">Best for: Archives, universal compatibility</span>
+        </div>
+
+        <!-- JSON -->
+        <div class="glass-card rounded-2xl p-6 reveal format-card">
+          <div class="text-4xl mb-4">{ }</div>
+          <div class="font-mono text-lg font-bold text-textPrimary mb-2">JSON</div>
+          <p class="text-textMuted text-sm mb-4 leading-relaxed">Full structured data with metadata, timestamps, turn counts, and source citations.</p>
+          <span class="inline-block text-xs px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-mono">Best for: Developers, data analysis, APIs</span>
+        </div>
+
+        <!-- CSV -->
+        <div class="glass-card rounded-2xl p-6 reveal format-card">
+          <div class="text-4xl mb-4">📊</div>
+          <div class="font-mono text-lg font-bold text-textPrimary mb-2">CSV</div>
+          <p class="text-textMuted text-sm mb-4 leading-relaxed">Spreadsheet-ready format with each turn as a row. Import into Excel, Sheets, or any BI tool.</p>
+          <span class="inline-block text-xs px-3 py-1 rounded-full bg-success/10 border border-success/20 text-success font-mono" style="border-color:rgba(16,185,129,0.2);color:#34d399;">Best for: Analysis, spreadsheets, business</span>
+        </div>
+
+        <!-- Image -->
+        <div class="glass-card rounded-2xl p-6 reveal format-card">
+          <div class="text-4xl mb-4">🖼️</div>
+          <div class="font-mono text-lg font-bold text-textPrimary mb-2">Image</div>
+          <p class="text-textMuted text-sm mb-4 leading-relaxed">High-resolution PNG snapshot of your chat. Perfect for social sharing or visual references.</p>
+          <span class="inline-block text-xs px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-mono">Best for: Social, presentations, quick share</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRIVACY TRUST SECTION ===== -->
+  <section id="privacy" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-14 reveal">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 mb-4">
+          <span class="text-xs font-mono text-emerald-400 font-medium">Privacy First</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-textPrimary mb-4">Privacy Isn't a Feature. It's the Foundation.</h2>
+        <p class="text-textMuted max-w-2xl mx-auto">We built Gemini Export Studio with a non-negotiable constraint: your conversation data is never transmitted anywhere. Ever.</p>
+      </div>
+
+      <!-- 3 columns -->
+      <div class="grid md:grid-cols-3 gap-6 mb-14">
+
+        <div class="glass-card rounded-2xl p-8 reveal text-center">
+          <div class="w-14 h-14 rounded-2xl bg-success/10 border border-success/20 flex items-center justify-center mx-auto mb-5">
+            <svg class="w-7 h-7 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-textPrimary mb-3">No Account Required</h3>
+          <p class="text-textMuted text-sm leading-relaxed">Install and use immediately. No sign-up, no email, no subscription. The extension works the moment you install it.</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-8 reveal text-center" style="transition-delay:80ms;">
+          <div class="w-14 h-14 rounded-2xl bg-success/10 border border-success/20 flex items-center justify-center mx-auto mb-5">
+            <svg class="w-7 h-7 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-textPrimary mb-3">No Cloud Servers</h3>
+          <p class="text-textMuted text-sm leading-relaxed">We don't have servers that receive your chat data. Processing is entirely local in your Chrome browser. We literally can't see your data.</p>
+        </div>
+
+        <div class="glass-card rounded-2xl p-8 reveal text-center" style="transition-delay:160ms;">
+          <div class="w-14 h-14 rounded-2xl bg-success/10 border border-success/20 flex items-center justify-center mx-auto mb-5">
+            <svg class="w-7 h-7 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-textPrimary mb-3">Open Processing</h3>
+          <p class="text-textMuted text-sm leading-relaxed">All export logic is transparent and auditable. The extension source uses only well-known, trusted open-source libraries.</p>
+        </div>
+
+      </div>
+
+      <!-- Compliance badges -->
+      <div class="reveal flex flex-wrap justify-center gap-3">
+        <div class="compliance-badge">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          GDPR Compliant
+        </div>
+        <div class="compliance-badge">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          CCPA Compliant
+        </div>
+        <div class="compliance-badge">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          Zero Data Collection
+        </div>
+        <div class="compliance-badge">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          No Analytics
+        </div>
+        <div class="compliance-badge">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/></svg>
+          Chrome Web Store Verified
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="py-20" style="background: linear-gradient(180deg, transparent, rgba(99,102,241,0.03), transparent);">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-16 reveal">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 mb-4">
+          <span class="text-xs font-mono text-indigo-400 font-medium">3 Steps</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-textPrimary mb-4">Up and Running in 60 Seconds</h2>
+        <p class="text-textMuted">No configuration. No accounts. Just install and export.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-3 gap-8">
+
+        <!-- Step 1 -->
+        <div class="reveal relative text-center">
+          <div class="relative inline-flex items-center justify-center mb-5">
+            <div class="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center">
+              <svg class="w-7 h-7 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center">1</span>
+          </div>
+          <!-- connector line (hidden on mobile via CSS) -->
+          <div class="step-line hidden sm:block"></div>
+          <h3 class="font-bold text-textPrimary mb-2 text-lg">Install Extension</h3>
+          <p class="text-textMuted text-sm leading-relaxed">Add Gemini Export Studio from the Chrome Web Store. One click, free forever.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="reveal relative text-center" style="transition-delay:100ms;">
+          <div class="relative inline-flex items-center justify-center mb-5">
+            <div class="w-14 h-14 rounded-2xl bg-violet-500/10 border border-violet-500/30 flex items-center justify-center">
+              <svg class="w-7 h-7 text-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+              </svg>
+            </div>
+            <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-violet text-white text-xs font-bold flex items-center justify-center">2</span>
+          </div>
+          <div class="step-line hidden sm:block"></div>
+          <h3 class="font-bold text-textPrimary mb-2 text-lg">Open Gemini Chat</h3>
+          <p class="text-textMuted text-sm leading-relaxed">Go to gemini.google.com and open any conversation you want to export.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="reveal relative text-center" style="transition-delay:200ms;">
+          <div class="relative inline-flex items-center justify-center mb-5">
+            <div class="w-14 h-14 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
+              <svg class="w-7 h-7 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+              </svg>
+            </div>
+            <span class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-cyan text-white text-xs font-bold flex items-center justify-center">3</span>
+          </div>
+          <h3 class="font-bold text-textPrimary mb-2 text-lg">Click Export</h3>
+          <p class="text-textMuted text-sm leading-relaxed">Click the extension icon, choose your format, and your file downloads instantly.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section id="faq" class="py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="text-center mb-14 reveal">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 mb-4">
+          <span class="text-xs font-mono text-indigo-400 font-medium">FAQ</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-textPrimary mb-4">Frequently Asked Questions</h2>
+        <p class="text-textMuted">Everything you need to know before installing.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4" id="faq-container">
+
+        <!-- FAQ 1 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">Is Gemini Export Studio really free?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">Yes, completely free. All core features — all 6 export formats, merging, PII scrubbing, and customization — are available at no cost. We may introduce optional premium features in the future, but the core export functionality will always be free.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">Does it work with all Gemini conversations?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">Yes, it works with all Gemini conversations on gemini.google.com, including regular chats, Deep Research reports, and Gemini Advanced conversations. It only works on the official Gemini web app, not API responses or other interfaces.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">How is my data kept private?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">All processing happens entirely within your Chrome browser. The extension reads the Gemini page DOM, processes it using local JavaScript libraries, and generates the export file directly in your browser. No data is ever sent to our servers — in fact, we don't have servers for processing chat data.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">What permissions does the extension need?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">The extension requires access to gemini.google.com (to read your conversation), storage (to save your preferences locally), and downloads (to save exported files). The Google Drive sync feature optionally requires the identity permission for OAuth. We only request the minimum permissions necessary.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">Can I export very long conversations?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">Yes, there's no hard limit on conversation length. However, very long conversations (hundreds of turns) may take a few seconds to process for PDF or image exports. Text-based formats like Markdown, JSON, and CSV are extremely fast regardless of length.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 6 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">Does it work with Gemini Advanced?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">Yes, Gemini Export Studio works with all tiers of Gemini — the free version, Gemini Advanced (1.5 Pro/Ultra), and Gemini for Google Workspace. The extension works at the browser level and isn't limited by your Gemini subscription tier.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 7 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">How does the chat merge feature work?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">You can add individual conversations to a "merge queue" by clicking "Add to Merge" on any chat. Once you've queued up the conversations you want (up to 20), open the extension popup, arrange them in your desired order, and click "Merge & Export." The result is a single document combining all selected conversations.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 8 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">Is Google Drive sync required?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">No, Google Drive sync is completely optional. The extension works perfectly without any cloud integration — exports are simply downloaded to your local Downloads folder. If you choose to connect Google Drive, you authenticate via Google's official OAuth flow and can disconnect at any time.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 9 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">What happens to my data if I uninstall?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">All local settings and cached data (merge queue, preferences, templates) are automatically deleted when you uninstall the extension. There's nothing stored on our servers to delete because we never received it. Your exported files on your device or Drive remain untouched.</p>
+          </div>
+        </div>
+
+        <!-- FAQ 10 -->
+        <div class="glass-card rounded-xl overflow-hidden reveal">
+          <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
+            <span class="font-semibold text-textPrimary text-sm">Is this extension affiliated with Google?</span>
+            <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div class="faq-answer px-6">
+            <p class="text-textMuted text-sm pb-5 leading-relaxed">No, Gemini Export Studio is an independent third-party Chrome extension and is not affiliated with, endorsed by, or connected to Google LLC. "Gemini" is a trademark of Google LLC. We are simply an export utility that works with the Gemini web application.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FINAL CTA ===== -->
+  <section class="py-24">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="glass-card rounded-3xl p-12 reveal" style="background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(139,92,246,0.05)); border-color:rgba(99,102,241,0.2);">
+
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 mb-6">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <span class="text-xs font-mono text-indigo-400 font-medium">Free · No Account · Instant Install</span>
+        </div>
+
+        <h2 class="text-3xl sm:text-5xl font-extrabold mb-6">
+          <span class="gradient-text-white">Start Exporting Your</span><br />
+          <span class="gradient-text">Gemini Conversations Today.</span>
+        </h2>
+
+        <p class="text-textMuted text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+          Join thousands of users who have taken control of their AI conversations. Free, private, and powerful.
+        </p>
+
+        <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer"
+          class="btn-glow text-white font-bold px-10 py-5 rounded-2xl inline-flex items-center gap-3 text-lg">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/>
+          </svg>
+          Add to Chrome — It's Free
+        </a>
+
+        <p class="text-textMuted text-xs mt-6">
+          Available for Chrome and Chromium-based browsers · Version 1.0.0
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="border-t border-border py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+
+        <!-- Logo + copyright -->
+        <div class="flex items-center gap-3">
+          <img src="icons/icon32.png" alt="Gemini Export Studio" class="w-7 h-7 opacity-80" />
+          <div>
+            <div class="font-bold text-textPrimary text-sm">Gemini Export Studio</div>
+            <div class="text-textMuted text-xs">© 2024 — Independent Chrome Extension</div>
+          </div>
+        </div>
+
+        <!-- Links -->
+        <div class="flex flex-wrap justify-center gap-6 text-sm text-textMuted">
+          <a href="#features" class="hover:text-textPrimary transition-colors">Features</a>
+          <a href="#formats" class="hover:text-textPrimary transition-colors">Formats</a>
+          <a href="#faq" class="hover:text-textPrimary transition-colors">FAQ</a>
+          <a href="privacy.html" class="hover:text-textPrimary transition-colors">Privacy Policy</a>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="text-xs text-textMuted text-center md:text-right max-w-xs">
+          Not affiliated with Google LLC. "Gemini" is a trademark of Google LLC.
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // 1. Scroll reveal with IntersectionObserver
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+      revealObserver.observe(el);
+    });
+
+    // 2. Stagger animation on format cards
+    document.querySelectorAll('#formats-grid .format-card').forEach((card, i) => {
+      card.style.transitionDelay = `${i * 80}ms`;
+    });
+
+    // 3. Nav scroll state
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }, { passive: true });
+
+    // 4. Mobile hamburger
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon = document.getElementById('close-icon');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      if (isOpen) {
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      } else {
+        mobileMenu.classList.remove('hidden');
+        hamburgerIcon.classList.add('hidden');
+        closeIcon.classList.remove('hidden');
+      }
+    });
+
+    // Close mobile menu when clicking a link
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+
+    // 5. FAQ accordion
+    function toggleFaq(btn) {
+      const card = btn.closest('.glass-card');
+      const answer = card.querySelector('.faq-answer');
+      const arrow = btn.querySelector('.faq-arrow');
+      const isOpen = answer.classList.contains('open');
+
+      // Close all others
+      document.querySelectorAll('.faq-answer.open').forEach(a => {
+        a.classList.remove('open');
+        a.closest('.glass-card').querySelector('.faq-arrow').classList.remove('open');
+      });
+
+      // Toggle current
+      if (!isOpen) {
+        answer.classList.add('open');
+        arrow.classList.add('open');
+      }
+    }
+
+    // 6. Scroll spy — highlight active nav link
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('id');
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(section => sectionObserver.observe(section));
+  </script>
+
+</body>
+</html>
