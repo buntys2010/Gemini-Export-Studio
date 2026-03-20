@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy — Gemini Export Studio</title>
-  <meta name="description" content="Gemini Export Studio privacy policy. We collect zero data. All processing is local in your browser." />
+  <meta name="description" content="Gemini Export Studio privacy policy. All processing is local in your browser. Your conversation data never leaves your device." />
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png" />
@@ -172,7 +172,7 @@
     <div class="mb-12">
       <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 mb-5">
         <span class="w-2 h-2 rounded-full bg-success"></span>
-        <span class="text-xs font-mono text-emerald-400 font-medium">Privacy Policy · Last updated March 2024</span>
+        <span class="text-xs font-mono text-emerald-400 font-medium">Privacy Policy · Last updated March 2026</span>
       </div>
       <h1 class="text-4xl sm:text-5xl font-extrabold mb-4">
         <span class="gradient-text">Privacy Policy</span>
@@ -193,7 +193,7 @@
         <div>
           <h2 class="text-success font-bold text-lg mb-2" style="border:none;padding:0;margin:0 0 0.5rem 0;">TL;DR — The Short Version</h2>
           <p class="text-emerald-200/80 text-sm leading-relaxed mb-3">
-            <strong style="color:#6ee7b7;">We collect ZERO data from your conversations.</strong> All processing happens entirely in your Chrome browser. Your chat content is never transmitted to any server — including ours. We have no servers that receive your conversation data.
+            <strong style="color:#6ee7b7;">Your conversation data never leaves your device.</strong> All processing happens entirely in your Chrome browser. No chat content is ever transmitted to our servers — we don't have any servers that receive your conversation data.
           </p>
           <div class="grid sm:grid-cols-3 gap-3 mt-4">
             <div class="text-center p-3 rounded-xl" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">
@@ -217,14 +217,18 @@
     <div class="rounded-2xl p-6 mb-12" style="background:rgba(26,26,46,0.6);border:1px solid rgba(42,42,69,0.8);">
       <h2 class="text-textPrimary font-semibold text-sm mb-4" style="border:none;padding:0;margin:0 0 1rem 0;">Table of Contents</h2>
       <ol class="space-y-2">
-        <li><a href="#section-1" class="toc-link">1. Data We Do NOT Collect</a></li>
-        <li><a href="#section-2" class="toc-link">2. Data Stored Locally Only</a></li>
-        <li><a href="#section-3" class="toc-link">3. Third-Party Services</a></li>
-        <li><a href="#section-4" class="toc-link">4. Chrome Extension Permissions</a></li>
-        <li><a href="#section-5" class="toc-link">5. Your Rights (GDPR &amp; CCPA)</a></li>
-        <li><a href="#section-6" class="toc-link">6. Children's Privacy</a></li>
-        <li><a href="#section-7" class="toc-link">7. Policy Changes</a></li>
-        <li><a href="#section-8" class="toc-link">8. Contact Us</a></li>
+        <li><a href="#section-1" class="toc-link">1. Data We Handle (Positive Disclosure)</a></li>
+        <li><a href="#section-2" class="toc-link">2. How We Handle Your Data</a></li>
+        <li><a href="#section-3" class="toc-link">3. Data We Do NOT Collect</a></li>
+        <li><a href="#section-4" class="toc-link">4. Data Stored Locally Only</a></li>
+        <li><a href="#section-5" class="toc-link">5. Data Sharing</a></li>
+        <li><a href="#section-6" class="toc-link">6. Data Security</a></li>
+        <li><a href="#section-7" class="toc-link">7. Chrome Extension Permissions</a></li>
+        <li><a href="#section-8" class="toc-link">8. Your Rights (GDPR &amp; CCPA)</a></li>
+        <li><a href="#section-9" class="toc-link">9. Children's Privacy</a></li>
+        <li><a href="#section-10" class="toc-link">10. Data Usage Declarations</a></li>
+        <li><a href="#section-11" class="toc-link">11. Policy Changes</a></li>
+        <li><a href="#section-12" class="toc-link">12. Contact Us</a></li>
       </ol>
     </div>
 
@@ -233,44 +237,156 @@
 
       <!-- Section 1 -->
       <div id="section-1" class="section-anchor">
-        <h2>1. Data We Do NOT Collect</h2>
-        <p>Gemini Export Studio is architected with privacy as a hard constraint, not an afterthought. The following data is <strong>never collected, transmitted, or stored on any server</strong>:</p>
+        <h2>1. Data We Handle (Positive Disclosure)</h2>
+        <p>Chrome Web Store policy requires a clear, positive disclosure of all data that the extension accesses, processes, or stores — even if that data never leaves your device. The following is a complete accounting of every category of data Gemini Export Studio handles:</p>
+
+        <h3>Conversation Content</h3>
         <ul>
-          <li>Your Gemini chat content, messages, or conversation history</li>
+          <li>The extension reads the HTML content of your Gemini conversations directly from the page DOM when you initiate an export</li>
+          <li>This content is processed entirely in memory within your browser to generate the export file (PDF, Markdown, HTML, etc.)</li>
+          <li>Conversation text is never transmitted to any external server — including ours</li>
+          <li>Once the export is complete, the in-memory content is discarded</li>
+        </ul>
+
+        <h3>Merge Queue — Full Conversation Content</h3>
+        <ul>
+          <li>When you add conversations to the merge queue, the extension stores the <strong>full conversation turn data</strong> (all chat messages and associated HTML) in <code>chrome.storage.local</code> under the key <code>mergeQueue</code></li>
+          <li>This cached content remains on your device only, until you export the merged result or manually clear the queue</li>
+          <li>This data is never transmitted externally</li>
+        </ul>
+
+        <h3>User Preferences and Optional Metadata</h3>
+        <ul>
+          <li>Your export settings (format, templates, PDF options, file naming, UI preferences) are stored locally under <code>ace_settings_v1</code></li>
+          <li>You may optionally enter a display name and email address in the extension settings for use as metadata in export files (e.g., author fields in PDF exports); these are stored locally and never transmitted to extension servers</li>
+        </ul>
+
+        <h3>Google Drive OAuth Tokens (Optional)</h3>
+        <ul>
+          <li>If you connect Google Drive, an OAuth access token is stored locally under <code>ace_cloud_tokens</code> and cloud destination folder IDs are stored under <code>ace_cloud_destinations</code></li>
+          <li>These are used exclusively to upload export files to your own Drive; they are not shared with any other party</li>
+          <li>If you never enable Drive sync, these keys are never written</li>
+        </ul>
+
+        <h3>Obsidian Vault Handle (Optional)</h3>
+        <ul>
+          <li>If you configure Obsidian sync, a filesystem handle to your chosen Obsidian vault folder is stored in IndexedDB (<code>ace-vault-db</code>) using the browser's File System Access API</li>
+          <li>This handle allows the extension to write export files directly into your local vault folder</li>
+          <li>No vault content is read by the extension, and no data is transmitted externally</li>
+        </ul>
+
+        <h3>Images Fetched for Export Embedding</h3>
+        <ul>
+          <li>The background service worker fetches images that appear in your Gemini conversations from Google's CDN (<code>lh3.googleusercontent.com</code>, <code>lh3.google.com</code>) in order to embed them as base64 data in export files</li>
+          <li>Only image URLs that are already visible on your Gemini page are fetched; no conversation text is sent to Google during this process</li>
+          <li>The fetched image data is used only for local embedding and is not stored persistently</li>
+        </ul>
+      </div>
+
+      <!-- Section 2 -->
+      <div id="section-2" class="section-anchor">
+        <h2>2. How We Handle Your Data</h2>
+        <p>This section describes exactly how each category of data flows through the extension — how it is accessed, how it is processed, and when it is discarded. No data category listed here is transmitted to our servers at any point.</p>
+
+        <h3>Conversation Content</h3>
+        <ul>
+          <li><strong>How accessed:</strong> Read directly from the Gemini page DOM in your browser when you click Export</li>
+          <li><strong>How processed:</strong> Parsed in-memory by the extension's content script to build the export document</li>
+          <li><strong>Transit path:</strong> Stays entirely within your browser — no network request is made carrying your chat text</li>
+          <li><strong>Retention:</strong> Discarded from memory immediately after the export file is generated</li>
+        </ul>
+
+        <h3>Merge Queue Data</h3>
+        <ul>
+          <li><strong>How accessed:</strong> Conversation turn data is written to <code>chrome.storage.local</code> when you add a conversation to the merge queue</li>
+          <li><strong>How processed:</strong> Read back from local storage when you trigger a merge export; merged in-memory into a single document</li>
+          <li><strong>Transit path:</strong> Never leaves your device; no external transmission occurs</li>
+          <li><strong>Retention:</strong> Cleared automatically when you export the merged result or manually clear the queue</li>
+        </ul>
+
+        <h3>User Preferences</h3>
+        <ul>
+          <li><strong>How accessed:</strong> Read from <code>chrome.storage.local</code> (<code>ace_settings_v1</code>) each time the extension UI loads</li>
+          <li><strong>How processed:</strong> Applied as configuration to the export pipeline (format, template, styling)</li>
+          <li><strong>Transit path:</strong> Never transmitted; stored and read locally only</li>
+          <li><strong>Retention:</strong> Persisted until you change settings or uninstall the extension</li>
+        </ul>
+
+        <h3>Google Drive OAuth Tokens (Optional)</h3>
+        <ul>
+          <li><strong>How accessed:</strong> Retrieved from <code>chrome.storage.local</code> (<code>ace_cloud_tokens</code>) only when a Drive upload is initiated</li>
+          <li><strong>How processed:</strong> Passed as a Bearer token in the Authorization header of HTTPS requests to the Google Drive API to upload your export file</li>
+          <li><strong>Transit path:</strong> Sent only to <code>www.googleapis.com</code> over HTTPS — never to our servers</li>
+          <li><strong>Retention:</strong> Stored locally until you disconnect Drive sync or uninstall; no copy is kept on our servers</li>
+        </ul>
+
+        <h3>Obsidian Vault Handle (Optional)</h3>
+        <ul>
+          <li><strong>How accessed:</strong> Retrieved from IndexedDB (<code>ace-vault-db</code>) when an Obsidian export is triggered</li>
+          <li><strong>How processed:</strong> Used with the browser's File System Access API to write the export file to your local vault folder</li>
+          <li><strong>Transit path:</strong> Local filesystem write only — no network transmission</li>
+          <li><strong>Retention:</strong> Handle persists in IndexedDB until you disconnect Obsidian sync or uninstall</li>
+        </ul>
+
+        <h3>Images Fetched for Export Embedding</h3>
+        <ul>
+          <li><strong>How accessed:</strong> Image URLs already present on your Gemini page are passed to the background service worker</li>
+          <li><strong>How processed:</strong> Fetched from Google's CDN over HTTPS; converted to base64 and embedded in the export document</li>
+          <li><strong>Transit path:</strong> Browser → Google CDN (image bytes only, no chat text); base64 data used locally for embedding</li>
+          <li><strong>Retention:</strong> Not stored persistently; used only during the export operation then discarded</li>
+        </ul>
+
+        <h3>Chrome Debugger API (PDF / Screenshot Export)</h3>
+        <ul>
+          <li><strong>How accessed:</strong> The extension attaches Chrome's Debugger Protocol to a temporary background tab it creates</li>
+          <li><strong>How processed:</strong> Conversation HTML is injected into the temporary tab, rendered, and captured as a PDF or image using the Debugger API</li>
+          <li><strong>Transit path:</strong> Entirely local — the Debugger API operates within your browser; no data is sent externally</li>
+          <li><strong>Retention:</strong> The temporary tab is closed immediately after capture; no intermediate files are stored</li>
+        </ul>
+      </div>
+
+      <!-- Section 3 -->
+      <div id="section-3" class="section-anchor">
+        <h2>3. Data We Do NOT Collect</h2>
+        <p>The following data is <strong>never collected, transmitted, or stored on any server</strong>:</p>
+        <ul>
+          <li>Your Gemini chat content, messages, or conversation history (sent to our servers)</li>
           <li>Your IP address or device identifiers</li>
           <li>Your Google account information or identity</li>
           <li>Analytics, telemetry, or usage statistics about which features you use</li>
           <li>Error logs containing personal information</li>
           <li>Your browser history or activity outside of gemini.google.com</li>
           <li>Any personally identifiable information (PII) present in your chats</li>
-          <li>Export file contents or metadata</li>
+          <li>Export file contents or metadata (sent to our servers)</li>
           <li>The titles or subjects of your Gemini conversations</li>
         </ul>
-        <p>We don't have analytics infrastructure for conversation data. We cannot see your chats even if we wanted to — by design.</p>
+        <p>We have no analytics infrastructure for conversation data. We cannot see your chats even if we wanted to — by design.</p>
       </div>
 
-      <!-- Section 2 -->
-      <div id="section-2" class="section-anchor">
-        <h2>2. Data Stored Locally Only</h2>
-        <p>The following data is stored <strong>exclusively in your browser's local storage</strong> using Chrome's <code>chrome.storage.local</code> API. This data never leaves your device:</p>
+      <!-- Section 4 -->
+      <div id="section-4" class="section-anchor">
+        <h2>4. Data Stored Locally Only</h2>
+        <p>The following data is stored <strong>exclusively on your device</strong>. None of it is transmitted to our servers or any third party (except where Google Drive is explicitly used for storage at your direction):</p>
 
-        <h3>Extension Preferences</h3>
+        <h3>Extension Preferences (<code>ace_settings_v1</code>)</h3>
         <ul>
           <li>Your preferred export format (e.g., PDF, Markdown)</li>
           <li>Custom export templates and styling preferences</li>
           <li>PDF page size, font, and margin settings</li>
           <li>File naming format preferences</li>
           <li>UI settings (theme, panel position)</li>
+          <li>Optional display name and email for export metadata (never transmitted externally)</li>
         </ul>
 
-        <h3>Merge Queue Cache</h3>
+        <h3>Merge Queue Cache (<code>mergeQueue</code>)</h3>
         <ul>
-          <li>URLs or identifiers of conversations added to your merge queue</li>
-          <li>The ordering you've set for queued conversations</li>
-          <li>This data is cleared when you export or manually clear the queue</li>
+          <li>The full conversation turn data (all chat messages and HTML) for each conversation added to your merge queue is cached in <code>chrome.storage.local</code></li>
+          <li>This allows multi-conversation merge operations to proceed even after you navigate away from a conversation page</li>
+          <li>This data is cleared automatically when you export or manually clear the queue</li>
+          <li>This data never leaves your device</li>
         </ul>
 
-        <h3>Google Drive OAuth Tokens (Optional)</h3>
+        <h3>Google Drive OAuth Tokens (Optional — <code>ace_cloud_tokens</code>, <code>ace_cloud_destinations</code>)</h3>
         <ul>
           <li>If you choose to connect Google Drive, an OAuth access token is stored locally</li>
           <li>This token only grants permission to create files in your Drive — we never read existing files</li>
@@ -278,68 +394,143 @@
           <li>If you never use Google Drive sync, no token is ever stored</li>
         </ul>
 
+        <h3>Obsidian Vault Handle (Optional — IndexedDB <code>ace-vault-db</code>)</h3>
+        <ul>
+          <li>If you configure Obsidian sync, a filesystem handle to your local vault folder is stored in IndexedDB using the browser's File System Access API</li>
+          <li>This handle is used only to write export files into your local Obsidian vault</li>
+          <li>No vault contents are read or transmitted; this is a local-only operation</li>
+          <li>If you never use Obsidian sync, nothing is written to IndexedDB</li>
+        </ul>
+
         <p>All locally stored data is automatically deleted when you uninstall the extension.</p>
       </div>
 
-      <!-- Section 3 -->
-      <div id="section-3" class="section-anchor">
-        <h2>3. Third-Party Services</h2>
-        <p>Gemini Export Studio interacts with two third-party services, both of which are optional or infrastructure-level:</p>
+      <!-- Section 5 -->
+      <div id="section-5" class="section-anchor">
+        <h2>5. Data Sharing</h2>
+        <p>Gemini Export Studio <strong>does not share your data with third parties for advertising, analytics, or any purpose unrelated to delivering your requested export.</strong> The only external data transmissions that occur are listed below, each initiated explicitly by you:</p>
 
-        <h3>Google Drive API (Optional)</h3>
-        <p>If you opt-in to Google Drive sync:</p>
+        <h3>Google Drive API — File Upload (Optional)</h3>
         <ul>
-          <li>The extension uses Google's official OAuth 2.0 flow for authentication</li>
-          <li>We only request the <code>drive.file</code> scope — permission to create and manage files <em>created by this extension only</em></li>
-          <li>We cannot read, modify, or delete any other files in your Drive</li>
-          <li>Google's privacy policy governs how Google handles this interaction: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></li>
-          <li>You can disconnect at any time and revoke all tokens</li>
+          <li><strong>Who:</strong> Google LLC (<code>www.googleapis.com</code>)</li>
+          <li><strong>What:</strong> The generated export file (e.g., a PDF or Markdown file you just exported) and an OAuth Bearer token</li>
+          <li><strong>Why:</strong> To upload the export file to your own Google Drive at your explicit direction</li>
+          <li><strong>When:</strong> Only when you have connected Drive sync and triggered an export with Drive upload enabled</li>
+          <li><strong>Scope limit:</strong> We request only the <code>drive.file</code> scope — permission to manage files created by this extension only; we cannot read, modify, or delete any other Drive files</li>
+          <li><strong>No conversation text shared:</strong> Only the final export file is uploaded; raw chat content is never sent to Google Drive API</li>
+        </ul>
+        <p>Gemini Export Studio's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" target="_blank" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
+
+        <h3>Google CDN — Image Fetching</h3>
+        <ul>
+          <li><strong>Who:</strong> Google LLC (<code>lh3.googleusercontent.com</code>, <code>lh3.google.com</code>)</li>
+          <li><strong>What:</strong> HTTP GET requests for image URLs already publicly visible on your Gemini page</li>
+          <li><strong>Why:</strong> To embed images as base64 data inside your export file so they appear offline</li>
+          <li><strong>When:</strong> Only during an export that includes image content</li>
+          <li><strong>No conversation text shared:</strong> Only image URLs are sent; no chat text, no user identity, no export content is included in these requests</li>
         </ul>
 
-        <h3>Chrome Web Store (Infrastructure)</h3>
+        <h3>Obsidian — Local Filesystem Only (Optional)</h3>
         <ul>
-          <li>The extension is distributed via the Chrome Web Store</li>
-          <li>Chrome handles extension updates automatically</li>
-          <li>The Chrome Web Store's privacy policy applies to the installation process: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a></li>
-          <li>We have no control over or access to Chrome Web Store installation data</li>
+          <li><strong>Who:</strong> Not transmitted externally — this is a local filesystem write</li>
+          <li><strong>What:</strong> The generated export file is written to a folder on your device</li>
+          <li><strong>Why:</strong> To save exports directly into your Obsidian vault at your direction</li>
+          <li><strong>When:</strong> Only when you have configured Obsidian sync and triggered an export</li>
+          <li><strong>No external sharing:</strong> No data is sent to Obsidian's servers or any network endpoint</li>
         </ul>
 
-        <h3>Google Fonts (CDN)</h3>
+        <h3>Chrome Web Store — Distribution Infrastructure</h3>
         <ul>
-          <li>This website (not the extension) loads fonts from Google Fonts CDN</li>
-          <li>This may result in Google logging your IP address for font delivery</li>
-          <li>The extension itself does not use any external font CDN</li>
+          <li><strong>Who:</strong> Google LLC (Chrome Web Store)</li>
+          <li><strong>What:</strong> Extension update manifests and binaries</li>
+          <li><strong>Why:</strong> Chrome automatically checks for and downloads extension updates</li>
+          <li><strong>When:</strong> Managed automatically by Chrome; we have no control over this process</li>
+          <li><strong>No user data shared:</strong> We do not transmit any user data to the Chrome Web Store; this is standard Chrome extension infrastructure</li>
         </ul>
+
+        <h3>Google Fonts CDN — This Website Only</h3>
+        <ul>
+          <li><strong>Who:</strong> Google LLC (fonts.googleapis.com)</li>
+          <li><strong>What:</strong> Font file requests from this privacy policy website</li>
+          <li><strong>Why:</strong> To render the Inter and JetBrains Mono typefaces on this website</li>
+          <li><strong>When:</strong> When you visit this website; the Chrome extension itself does not use any external font CDN</li>
+        </ul>
+
+        <h3>No Other Sharing</h3>
+        <p>We do not share, sell, rent, or transfer your data to any other party under any circumstances. There are no advertising networks, analytics providers, data brokers, or third-party SDKs embedded in this extension that receive your data.</p>
       </div>
 
-      <!-- Section 4 -->
-      <div id="section-4" class="section-anchor">
-        <h2>4. Chrome Extension Permissions</h2>
+      <!-- Section 6 -->
+      <div id="section-6" class="section-anchor">
+        <h2>6. Data Security</h2>
+        <p>Gemini Export Studio is designed to minimize security risk through its local-first, server-free architecture. The following measures protect your data:</p>
+
+        <h3>Local Storage Encryption</h3>
+        <ul>
+          <li>All data stored in <code>chrome.storage.local</code> (preferences, merge queue, OAuth tokens) is protected by Chrome's storage layer, which is encrypted by your operating system's disk encryption when your device is locked</li>
+          <li>We do not implement a separate encryption layer on top of Chrome's storage, as the OS-level protection is appropriate for this data</li>
+        </ul>
+
+        <h3>HTTPS-Only External Requests</h3>
+        <ul>
+          <li>All external network requests made by the extension — to the Google Drive API and Google CDN — use HTTPS with TLS certificate validation enforced by Chrome</li>
+          <li>No plaintext HTTP requests are made by the extension</li>
+        </ul>
+
+        <h3>No Server-Side Attack Surface</h3>
+        <ul>
+          <li>Because we operate no servers that receive user data, there is no server-side database, no API endpoint, and no backend to compromise</li>
+          <li>An attacker cannot steal your conversation data from our infrastructure because we hold none</li>
+        </ul>
+
+        <h3>Chrome Debugger Tab Isolation</h3>
+        <ul>
+          <li>When generating PDFs, the extension creates a temporary background tab and immediately destroys it after capture</li>
+          <li>The tab is not user-visible and is programmatically closed as soon as rendering completes</li>
+          <li>No intermediate PDF or screenshot file is written to disk during this process</li>
+        </ul>
+
+        <h3>Minimal OAuth Scope</h3>
+        <ul>
+          <li>The Google Drive OAuth integration requests only the <code>drive.file</code> scope, which is the narrowest scope available for file creation</li>
+          <li>This scope cannot be used to read, browse, modify, or delete any files in your Drive that were not created by this extension</li>
+        </ul>
+
+        <h3>Responsible Disclosure</h3>
+        <p>If you discover a security vulnerability in Gemini Export Studio, please report it responsibly by emailing <a href="mailto:masteringllmlabs@gmail.com">masteringllmlabs@gmail.com</a>. We will acknowledge reports within 72 hours and work to address confirmed issues promptly.</p>
+      </div>
+
+      <!-- Section 7 -->
+      <div id="section-7" class="section-anchor">
+        <h2>7. Chrome Extension Permissions</h2>
         <p>Gemini Export Studio requests the minimum necessary permissions. Here's exactly why each permission is needed:</p>
 
         <h3><code>host_permissions: gemini.google.com</code></h3>
         <p>Required to read the Gemini page DOM and extract your conversation content for export. Without this, the extension cannot access any page content.</p>
 
         <h3><code>storage</code></h3>
-        <p>Required to save your preferences (export format, templates, settings) locally in Chrome's storage. All data stored here stays on your device.</p>
+        <p>Required to save your preferences (export format, templates, settings), merge queue data, and optional OAuth tokens locally in Chrome's storage. All data stored here stays on your device.</p>
 
         <h3><code>downloads</code></h3>
         <p>Required to trigger the file download when you export a conversation. The extension uses Chrome's download API to save the generated file to your Downloads folder.</p>
 
-        <h3><code>identity</code> (Optional — Drive sync only)</h3>
-        <p>Required only if you connect Google Drive. This permission enables the OAuth flow to authenticate with Google's Drive API. It is not requested unless you initiate Drive connection.</p>
+        <h3><code>debugger</code></h3>
+        <p>Used exclusively for client-side PDF rendering and screenshot capture. When you export as PDF or image, the extension uses the Chrome Debugger Protocol to: create a temporary background tab, inject the conversation HTML into it, render it fully, and capture the output as a PDF or screenshot. The tab is immediately closed after capture. No data is transmitted externally during this process — the debugger API is used entirely within your browser for local rendering. This is one of Chrome's most powerful APIs and we use it only because Chrome's standard print-to-PDF functionality is not available to extensions.</p>
 
-        <p>We do not request <code>history</code>, <code>tabs</code>, <code>cookies</code>, <code>webRequest</code>, or any other broad-access permissions. We never request access to any website other than gemini.google.com.</p>
+        <h3><code>identity</code> (Drive sync only)</h3>
+        <p>This permission is declared in the extension manifest but is only activated when you explicitly initiate Google Drive sync. The permission enables the OAuth flow to authenticate with Google's Drive API. If you never use Google Drive sync, this permission is never invoked.</p>
+
+        <p>We do not request <code>history</code>, <code>tabs</code>, <code>cookies</code>, <code>webRequest</code>, or any other broad-access permissions. We never request access to any website other than gemini.google.com (and Google's APIs for optional Drive sync).</p>
       </div>
 
-      <!-- Section 5 -->
-      <div id="section-5" class="section-anchor">
-        <h2>5. Your Rights (GDPR &amp; CCPA)</h2>
-        <p>Since we collect no personal data, most standard data rights requests are trivially satisfied — there's nothing to access, correct, or delete on our end.</p>
+      <!-- Section 8 -->
+      <div id="section-8" class="section-anchor">
+        <h2>8. Your Rights (GDPR &amp; CCPA)</h2>
+        <p>Since we collect no personal data on our servers, most standard data rights requests are trivially satisfied — there's nothing to access, correct, or delete on our end.</p>
 
         <h3>GDPR (EU/EEA Users)</h3>
         <ul>
-          <li><strong>Right of Access:</strong> We hold no personal data about you</li>
+          <li><strong>Right of Access:</strong> We hold no personal data about you on our servers</li>
           <li><strong>Right to Erasure:</strong> No data stored on our servers; uninstalling the extension clears all local data</li>
           <li><strong>Right to Portability:</strong> Your export files are always in your possession</li>
           <li><strong>Right to Object:</strong> Processing happens locally; there is no profiling or automated decision-making</li>
@@ -348,7 +539,7 @@
 
         <h3>CCPA (California Residents)</h3>
         <ul>
-          <li><strong>Right to Know:</strong> We collect no personal information — there is nothing to disclose</li>
+          <li><strong>Right to Know:</strong> We collect no personal information on our servers — there is nothing to disclose</li>
           <li><strong>Right to Delete:</strong> Uninstall the extension — all local data is automatically deleted</li>
           <li><strong>Right to Opt-Out of Sale:</strong> We do not sell personal information (we have none to sell)</li>
           <li><strong>Non-Discrimination:</strong> We offer no tiered service based on privacy choices</li>
@@ -357,17 +548,28 @@
         <p>To exercise any rights related to optional Google Drive sync, you can revoke the extension's Google Drive access at: <a href="https://myaccount.google.com/permissions" target="_blank" rel="noopener">myaccount.google.com/permissions</a></p>
       </div>
 
-      <!-- Section 6 -->
-      <div id="section-6" class="section-anchor">
-        <h2>6. Children's Privacy</h2>
+      <!-- Section 9 -->
+      <div id="section-9" class="section-anchor">
+        <h2>9. Children's Privacy</h2>
         <p>Gemini Export Studio is not directed at children under the age of 13 (or 16 in the EU/EEA). We do not knowingly collect any personal information from children.</p>
         <p>Since we collect no personal data from any user, children's data is equally protected by our zero-collection architecture.</p>
-        <p>If you believe a child has used this extension in a way that concerns you, please contact us at the email below.</p>
+        <p>If you believe a child has used this extension in a way that concerns you, please contact us at <a href="mailto:masteringllmlabs@gmail.com">masteringllmlabs@gmail.com</a>.</p>
       </div>
 
-      <!-- Section 7 -->
-      <div id="section-7" class="section-anchor">
-        <h2>7. Policy Changes</h2>
+      <!-- Section 10 -->
+      <div id="section-10" class="section-anchor">
+        <h2>10. Data Usage Declarations</h2>
+        <p>To comply with Chrome Web Store Developer Program Policies, we explicitly declare that:</p>
+        <ul>
+          <li><strong>We do not sell your data to third parties.</strong> No data — including conversation content, preferences, or any locally processed information — is ever sold.</li>
+          <li><strong>We do not use or transfer your data for purposes unrelated to the core functionality of the extension.</strong> Data accessed by the extension is used solely to generate and deliver your requested exports.</li>
+          <li><strong>We do not use or transfer your data to determine creditworthiness or for lending purposes.</strong></li>
+        </ul>
+      </div>
+
+      <!-- Section 11 -->
+      <div id="section-11" class="section-anchor">
+        <h2>11. Policy Changes</h2>
         <p>We may update this privacy policy from time to time. When we do:</p>
         <ul>
           <li>The "Last updated" date at the top of this page will be revised</li>
@@ -378,9 +580,9 @@
         <p>Continued use of the extension after a policy update constitutes acceptance of the revised policy.</p>
       </div>
 
-      <!-- Section 8 -->
-      <div id="section-8" class="section-anchor">
-        <h2>8. Contact Us</h2>
+      <!-- Section 12 -->
+      <div id="section-12" class="section-anchor">
+        <h2>12. Contact Us</h2>
         <p>If you have questions, concerns, or requests related to this privacy policy or Gemini Export Studio's data practices, please reach out:</p>
 
         <div class="rounded-xl p-5 my-6" style="background:rgba(26,26,46,0.8);border:1px solid rgba(42,42,69,0.8);">
@@ -389,7 +591,10 @@
               <svg class="w-5 h-5 text-primary flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
               </svg>
-              <span class="text-textMuted text-sm">For privacy inquiries, reach us via the Chrome Web Store listing</span>
+              <div>
+                <div class="text-textMuted text-sm mb-0.5">Email</div>
+                <a href="mailto:masteringllmlabs@gmail.com" class="text-primary hover:text-violet transition-colors text-sm font-mono">masteringllmlabs@gmail.com</a>
+              </div>
             </div>
             <div class="flex items-center gap-3">
               <svg class="w-5 h-5 text-primary flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
@@ -418,7 +623,7 @@
     <div class="max-w-3xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
       <div class="flex items-center gap-3">
         <img src="icons/icon32.png" alt="Gemini Export Studio" class="w-6 h-6 opacity-70" />
-        <span class="text-textMuted text-sm">© 2024 Gemini Export Studio</span>
+        <span class="text-textMuted text-sm">© 2026 Gemini Export Studio</span>
       </div>
       <div class="flex gap-6 text-sm text-textMuted">
         <a href="index.html" class="hover:text-textPrimary transition-colors">Home</a>
