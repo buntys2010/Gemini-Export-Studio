@@ -10,6 +10,16 @@
   <link rel="icon" type="image/png" sizes="32x32" href="icons/icon32.png" />
   <link rel="icon" type="image/png" sizes="128x128" href="icons/icon128.png" />
 
+  <!-- Theme init (before render to avoid flash) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = saved || (prefersDark ? 'dark' : 'light');
+      if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -144,25 +154,122 @@
     .section-anchor {
       scroll-margin-top: 80px;
     }
+
+    /* Background grid */
+    .bg-grid {
+      background-image:
+        linear-gradient(rgba(42, 42, 69, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(42, 42, 69, 0.3) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Orb */
+    .orb {
+      border-radius: 50%;
+      filter: blur(80px);
+      position: fixed;
+      pointer-events: none;
+    }
+
+    /* Nav orange CTA */
+    .btn-orange {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      box-shadow: 0 0 18px rgba(249,115,22,0.35), 0 4px 14px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .btn-orange:hover {
+      box-shadow: 0 0 32px rgba(249,115,22,0.5), 0 8px 22px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
+    }
+
+    /* Theme toggle */
+    .theme-toggle {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px; border-radius: 999px;
+      border: 1px solid rgba(42, 42, 69, 0.8);
+      background: transparent; cursor: pointer;
+      transition: all 0.3s ease; color: #94a3b8;
+      font-size: 0.8rem; font-weight: 500;
+    }
+    .theme-toggle:hover { border-color: rgba(99,102,241,0.5); background: rgba(99,102,241,0.08); color: #f1f5f9; }
+    .theme-toggle .toggle-track { width: 36px; height: 20px; border-radius: 999px; background: rgba(42,42,69,0.8); position: relative; transition: background 0.3s ease; flex-shrink: 0; }
+    .theme-toggle .toggle-thumb { width: 14px; height: 14px; border-radius: 50%; background: #94a3b8; position: absolute; top: 3px; left: 3px; transition: transform 0.3s ease, background 0.3s ease; }
+    [data-theme="light"] .theme-toggle .toggle-track { background: rgba(99,102,241,0.25); }
+    [data-theme="light"] .theme-toggle .toggle-thumb { transform: translateX(16px); background: #6366f1; }
+
+    /* ===== LIGHT THEME ===== */
+    [data-theme="light"] body { background-color: #f8f9ff; color: #1e1b4b; }
+    [data-theme="light"] .bg-grid {
+      background-color: #f8f9ff;
+      background-image:
+        linear-gradient(rgba(99,102,241,0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99,102,241,0.07) 1px, transparent 1px);
+    }
+    [data-theme="light"] ::-webkit-scrollbar-track { background: #f8f9ff; }
+    [data-theme="light"] ::-webkit-scrollbar-thumb { background: #c7d2fe; }
+    [data-theme="light"] .prose-dark h2 { color: #1e1b4b; border-top-color: rgba(99,102,241,0.18); }
+    [data-theme="light"] .prose-dark h3 { color: #312e81; }
+    [data-theme="light"] .prose-dark p { color: #475569; }
+    [data-theme="light"] .prose-dark ul li { color: #475569; }
+    [data-theme="light"] .prose-dark strong { color: #1e1b4b; }
+    [data-theme="light"] .prose-dark code { background: rgba(99,102,241,0.08); color: #4f46e5; }
+    [data-theme="light"] .toc-link { color: #64748b; }
+    [data-theme="light"] .toc-link:hover { color: #6366f1; }
+    [data-theme="light"] .orb { opacity: 0.05 !important; }
+    [data-theme="light"] .theme-toggle { border-color: rgba(99,102,241,0.3); color: #64748b; }
+    [data-theme="light"] .theme-toggle:hover { color: #1e1b4b; }
+    [data-theme="light"] nav { background: rgba(248, 249, 255, 0.97) !important; border-bottom-color: rgba(99,102,241,0.18) !important; }
+    [data-theme="light"] nav .text-textPrimary { color: #1e1b4b !important; }
+    [data-theme="light"] nav .text-textMuted { color: #64748b !important; }
   </style>
 </head>
-<body>
+<body class="bg-grid">
+
+  <!-- Background orbs -->
+  <div class="orb w-96 h-96 bg-indigo-600 opacity-10 top-0 left-1/4" style="z-index:0;"></div>
+  <div class="orb w-80 h-80 bg-violet-600 top-1/2 right-1/4" style="z-index:0;filter:blur(100px);opacity:0.06;"></div>
 
   <!-- Nav -->
-  <nav class="sticky top-0 z-50 border-b border-border py-4" style="background:rgba(15,15,26,0.95);backdrop-filter:blur(20px);">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-3 group">
+  <nav class="sticky top-0 z-50 border-b border-border py-3" style="background:rgba(15,15,26,0.95);backdrop-filter:blur(20px);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-3 group flex-shrink-0">
         <img src="icons/icon32.png" alt="Gemini Export Studio" class="w-7 h-7" />
         <span class="font-bold text-sm text-textPrimary group-hover:text-primary transition-colors">
           Gemini <span class="gradient-text">Export Studio</span>
         </span>
       </a>
-      <a href="index.html" class="text-sm text-textMuted hover:text-textPrimary transition-colors flex items-center gap-1">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-        </svg>
-        Back to Home
-      </a>
+
+      <!-- Right side -->
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="hidden sm:flex text-sm text-textMuted hover:text-textPrimary transition-colors items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          Back to Home
+        </a>
+
+        <!-- Theme toggle -->
+        <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle light/dark theme">
+          <svg id="theme-icon-moon" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+          </svg>
+          <svg id="theme-icon-sun" class="w-3.5 h-3.5 hidden" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+          </svg>
+          <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        </button>
+
+        <!-- Add to Chrome -->
+        <a href="https://chromewebstore.google.com/detail/gemini-export-studio/oondabmhecdagnndhjhgnhhhnninpagc" target="_blank" rel="noopener noreferrer"
+          class="btn-orange text-white text-xs font-semibold px-4 py-2 rounded-xl inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/>
+          </svg>
+          Add to Chrome
+        </a>
+      </div>
     </div>
   </nav>
 
@@ -197,15 +304,27 @@
           </p>
           <div class="grid sm:grid-cols-3 gap-3 mt-4">
             <div class="text-center p-3 rounded-xl" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">
-              <div class="text-xl mb-1">🚫</div>
+              <div class="flex justify-center mb-1.5">
+                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>
+                </svg>
+              </div>
               <div class="text-xs font-semibold text-emerald-300">No Chat Data Sent</div>
             </div>
             <div class="text-center p-3 rounded-xl" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">
-              <div class="text-xl mb-1">🔒</div>
+              <div class="flex justify-center mb-1.5">
+                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+              </div>
               <div class="text-xs font-semibold text-emerald-300">100% Local Processing</div>
             </div>
             <div class="text-center p-3 rounded-xl" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">
-              <div class="text-xl mb-1">👤</div>
+              <div class="flex justify-center mb-1.5">
+                <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+              </div>
               <div class="text-xs font-semibold text-emerald-300">No Account Required</div>
             </div>
           </div>
@@ -628,10 +747,42 @@
       <div class="flex gap-6 text-sm text-textMuted">
         <a href="index.html" class="hover:text-textPrimary transition-colors">Home</a>
         <a href="index.html#faq" class="hover:text-textPrimary transition-colors">FAQ</a>
-        <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer" class="hover:text-textPrimary transition-colors">Chrome Store</a>
+        <a href="https://chromewebstore.google.com/detail/gemini-export-studio/oondabmhecdagnndhjhgnhhhnninpagc" target="_blank" rel="noopener noreferrer" class="hover:text-textPrimary transition-colors">Chrome Store</a>
       </div>
     </div>
   </footer>
+
+  <!-- Theme toggle script -->
+  <script>
+    const html = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+    const moonIcon = document.getElementById('theme-icon-moon');
+    const sunIcon = document.getElementById('theme-icon-sun');
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        html.setAttribute('data-theme', 'light');
+        moonIcon.classList.add('hidden');
+        sunIcon.classList.remove('hidden');
+      } else {
+        html.removeAttribute('data-theme');
+        moonIcon.classList.remove('hidden');
+        sunIcon.classList.add('hidden');
+      }
+    }
+
+    function toggleTheme() {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    }
+
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+    toggleBtn.addEventListener('click', toggleTheme);
+  </script>
 
 </body>
 </html>
