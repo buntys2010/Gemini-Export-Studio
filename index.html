@@ -455,49 +455,51 @@
     /* orb adjustments for light mode */
     [data-theme="light"] .orb { opacity: 0.06 !important; }
 
-    /* ===== FEATURE CHIPS ===== */
-    .feature-chip {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 12px 16px;
-      background: rgba(19, 19, 31, 0.7);
-      border: 1px solid rgba(42, 42, 69, 0.7);
-      border-radius: 14px;
-      font-size: 0.875rem;
-      transition: border-color 0.2s ease, background 0.2s ease;
-    }
-    .feature-chip:hover {
-      border-color: rgba(99, 102, 241, 0.4);
-      background: rgba(99, 102, 241, 0.06);
-    }
-    .feature-chip .chip-emoji {
-      font-size: 1.1rem;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-    .feature-chip .chip-title {
-      color: #e2e8f0;
+    /* ===== HERO TRUST BADGES ===== */
+    .hero-trust-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 13px;
+      border-radius: 999px;
+      font-size: 0.8rem;
       font-weight: 600;
+      border: 1px solid;
       white-space: nowrap;
     }
-    .feature-chip .chip-desc {
-      color: #64748b;
-      font-size: 0.8rem;
-      margin-top: 1px;
+    .hero-badge-green {
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.3);
+      color: #34d399;
     }
-    [data-theme="light"] .feature-chip {
-      background: rgba(255, 255, 255, 0.85);
-      border-color: rgba(99, 102, 241, 0.15);
-      box-shadow: 0 1px 6px rgba(99, 102, 241, 0.06);
+    .hero-badge-cyan {
+      background: rgba(6, 182, 212, 0.1);
+      border-color: rgba(6, 182, 212, 0.3);
+      color: #22d3ee;
     }
-    [data-theme="light"] .feature-chip:hover {
-      border-color: rgba(99, 102, 241, 0.4);
-      background: rgba(99, 102, 241, 0.04);
+    .hero-badge-violet {
+      background: rgba(139, 92, 246, 0.1);
+      border-color: rgba(139, 92, 246, 0.3);
+      color: #a78bfa;
     }
-    [data-theme="light"] .feature-chip .chip-title { color: #1e1b4b; }
-    [data-theme="light"] .feature-chip .chip-desc { color: #64748b; }
-    [data-theme="light"] .highlights-intro { color: #475569; }
+    /* Hero feature pills */
+    .hero-feat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      background: rgba(19, 19, 31, 0.6);
+      border: 1px solid rgba(42, 42, 69, 0.7);
+      color: #94a3b8;
+    }
+    /* Light mode */
+    [data-theme="light"] .hero-badge-green { color: #065f46; background: rgba(16,185,129,0.1); border-color: rgba(16,185,129,0.35); }
+    [data-theme="light"] .hero-badge-cyan { color: #0e7490; background: rgba(6,182,212,0.1); border-color: rgba(6,182,212,0.35); }
+    [data-theme="light"] .hero-badge-violet { color: #5b21b6; background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.35); }
+    [data-theme="light"] .hero-feat-pill { background: rgba(255,255,255,0.85); border-color: rgba(99,102,241,0.18); color: #475569; }
 
     /* ===== BENTO GRID ===== */
     .bento-grid {
@@ -701,108 +703,63 @@
           </a>
         </div>
 
-        <!-- Trust line -->
-        <div class="flex items-center justify-center gap-2 text-sm text-textMuted mb-8">
-          <svg class="w-4 h-4 text-success flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-          </svg>
-          <span>Zero data leaves your device · No account needed · GDPR ready · 100% Free</span>
+        <!-- Trust badges — key selling points -->
+        <div class="flex flex-wrap items-center justify-center gap-2 mb-5">
+          <span class="hero-trust-badge hero-badge-green">
+            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            <strong>100% Free</strong> — no paywalls, no limits
+          </span>
+          <span class="hero-trust-badge hero-badge-green">
+            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg>
+            No Sign-up Required
+          </span>
+          <span class="hero-trust-badge hero-badge-cyan">
+            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            No Watermarks
+          </span>
+          <span class="hero-trust-badge hero-badge-violet">
+            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            Data Never Leaves Device
+          </span>
+          <span class="hero-trust-badge hero-badge-cyan">
+            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0117.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            GDPR Ready
+          </span>
+          <span class="hero-trust-badge hero-badge-green">
+            <svg class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+            Unlimited Exports
+          </span>
         </div>
 
-        <!-- Stats pills -->
-        <div class="flex flex-wrap justify-center gap-3">
-          <div class="stat-pill"><span class="text-primary font-mono font-bold">6</span><span class="text-textMuted">Export Formats</span></div>
-          <div class="stat-pill"><span class="text-success font-mono font-bold">100%</span><span class="text-textMuted">Local Processing</span></div>
-          <div class="stat-pill"><span class="text-violet font-mono font-bold">20+</span><span class="text-textMuted">Merged Chats</span></div>
-          <div class="stat-pill"><span class="text-success font-mono font-bold">✓</span><span class="text-textMuted">GDPR Ready</span></div>
+        <!-- Feature capability pills -->
+        <div class="flex flex-wrap justify-center gap-2">
+          <div class="hero-feat-pill">
+            <svg class="w-3.5 h-3.5 text-primary flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <strong class="text-textPrimary">6 Formats</strong>: PDF · MD · JSON · CSV · Text · Image
+          </div>
+          <div class="hero-feat-pill">
+            <svg class="w-3.5 h-3.5 text-violet flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+            Merge up to <strong class="text-violet">20 Chats</strong>
+          </div>
+          <div class="hero-feat-pill">
+            <svg class="w-3.5 h-3.5 text-cyan flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/></svg>
+            Selective Export
+          </div>
+          <div class="hero-feat-pill">
+            <svg class="w-3.5 h-3.5 text-success flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            Deep Research Support
+          </div>
+          <div class="hero-feat-pill">
+            <svg class="w-3.5 h-3.5 text-primary flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+            Drive &amp; Obsidian Sync
+          </div>
+          <div class="hero-feat-pill">
+            <svg class="w-3.5 h-3.5 text-success flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            PII Redaction
+          </div>
         </div>
 
       </div>
-    </div>
-  </section>
-
-  <!-- ===== FEATURE HIGHLIGHTS ===== -->
-  <section class="py-12 border-y border-border/40">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-
-      <p class="text-center text-textMuted highlights-intro leading-relaxed mb-8 max-w-3xl mx-auto">
-        <strong class="text-textPrimary">Gemini Export Studio</strong> lets you export Google Gemini conversations in PDF, Markdown, JSON, CSV, Text, or Image — completely free, with unlimited exports, no watermarks, and 100% local processing.
-        <span class="block mt-1 text-sm font-medium">Export Gemini chats your way — fast, flexible, and fully private. 🚀</span>
-      </p>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 reveal">
-        <div class="feature-chip">
-          <span class="chip-emoji">✅</span>
-          <div>
-            <div class="chip-title">100% Free</div>
-            <div class="chip-desc">No paywalls, no limits, no watermarks — ever</div>
-          </div>
-        </div>
-        <div class="feature-chip">
-          <span class="chip-emoji">📄</span>
-          <div>
-            <div class="chip-title">6 Export Formats</div>
-            <div class="chip-desc">PDF, Markdown, JSON, CSV, Text, Image</div>
-          </div>
-        </div>
-        <div class="feature-chip">
-          <span class="chip-emoji">🔒</span>
-          <div>
-            <div class="chip-title">Local Processing Only</div>
-            <div class="chip-desc">Your data never leaves your device</div>
-          </div>
-        </div>
-        <div class="feature-chip">
-          <span class="chip-emoji">🎯</span>
-          <div>
-            <div class="chip-title">Selective Export</div>
-            <div class="chip-desc">Choose exactly which messages to include</div>
-          </div>
-        </div>
-        <div class="feature-chip">
-          <span class="chip-emoji">🧠</span>
-          <div>
-            <div class="chip-title">Deep Research Support</div>
-            <div class="chip-desc">Capture sources, panels, and insights</div>
-          </div>
-        </div>
-        <div class="feature-chip">
-          <span class="chip-emoji">🔗</span>
-          <div>
-            <div class="chip-title">Merge Chats</div>
-            <div class="chip-desc">Combine up to 20 conversations into one</div>
-          </div>
-        </div>
-        <div class="feature-chip">
-          <span class="chip-emoji">☁️</span>
-          <div>
-            <div class="chip-title">Optional Sync</div>
-            <div class="chip-desc">Export to Google Drive or Obsidian</div>
-          </div>
-        </div>
-        <div class="feature-chip">
-          <span class="chip-emoji">🛡️</span>
-          <div>
-            <div class="chip-title">PII Protection</div>
-            <div class="chip-desc">Redact sensitive data automatically</div>
-          </div>
-        </div>
-        <div class="feature-chip">
-          <span class="chip-emoji">⚡</span>
-          <div>
-            <div class="chip-title">Clean &amp; Accurate Exports</div>
-            <div class="chip-desc">Preserves formatting, code, and tables</div>
-          </div>
-        </div>
-        <div class="feature-chip">
-          <span class="chip-emoji">🖱️</span>
-          <div>
-            <div class="chip-title">One-Click UI</div>
-            <div class="chip-desc">Simple floating button + side panel</div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 
