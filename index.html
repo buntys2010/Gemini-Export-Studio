@@ -22,6 +22,16 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
+  <!-- Theme init (before render to avoid flash) -->
+  <script>
+    (function() {
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var theme = saved || (prefersDark ? 'dark' : 'light');
+      if (theme === 'light') document.documentElement.setAttribute('data-theme', 'light');
+    })();
+  </script>
+
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -288,6 +298,232 @@
     @media (max-width: 768px) {
       .step-line { display: none; }
     }
+
+    /* ===== THEME TOGGLE ===== */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(42, 42, 69, 0.8);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      color: #94a3b8;
+      font-size: 0.8rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .theme-toggle:hover {
+      border-color: rgba(99, 102, 241, 0.5);
+      background: rgba(99, 102, 241, 0.08);
+      color: #f1f5f9;
+    }
+
+    .theme-toggle .toggle-track {
+      width: 36px;
+      height: 20px;
+      border-radius: 999px;
+      background: rgba(42, 42, 69, 0.8);
+      position: relative;
+      transition: background 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle .toggle-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #94a3b8;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    [data-theme="light"] .theme-toggle .toggle-track {
+      background: rgba(99, 102, 241, 0.25);
+    }
+
+    [data-theme="light"] .theme-toggle .toggle-thumb {
+      transform: translateX(16px);
+      background: #6366f1;
+    }
+
+    /* ===== LIGHT THEME OVERRIDES ===== */
+    [data-theme="light"] body {
+      background-color: #f8f9ff;
+      color: #1e1b4b;
+    }
+
+    [data-theme="light"] ::-webkit-scrollbar-track { background: #f8f9ff; }
+    [data-theme="light"] ::-webkit-scrollbar-thumb { background: #c7d2fe; }
+
+    [data-theme="light"] .text-textPrimary,
+    [data-theme="light"] .hover\:text-textPrimary:hover { color: #1e1b4b !important; }
+
+    [data-theme="light"] .text-textMuted { color: #64748b !important; }
+
+    [data-theme="light"] .bg-grid {
+      background-color: #f8f9ff;
+      background-image:
+        linear-gradient(rgba(99, 102, 241, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.07) 1px, transparent 1px);
+    }
+
+    [data-theme="light"] .glass {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(99, 102, 241, 0.18);
+    }
+
+    [data-theme="light"] .glass-card {
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      box-shadow: 0 2px 12px rgba(99, 102, 241, 0.06);
+    }
+
+    [data-theme="light"] .glass-card:hover {
+      border-color: rgba(99, 102, 241, 0.45);
+      box-shadow: 0 0 30px rgba(99, 102, 241, 0.12), 0 8px 32px rgba(0,0,0,0.08);
+    }
+
+    [data-theme="light"] nav.scrolled {
+      background: rgba(248, 249, 255, 0.95) !important;
+      border-bottom-color: rgba(99, 102, 241, 0.18);
+    }
+
+    [data-theme="light"] .btn-ghost {
+      border-color: rgba(99, 102, 241, 0.28);
+      color: #1e1b4b;
+    }
+
+    [data-theme="light"] .btn-ghost:hover {
+      background: rgba(99, 102, 241, 0.08);
+      border-color: rgba(99, 102, 241, 0.5);
+    }
+
+    [data-theme="light"] .theme-toggle {
+      border-color: rgba(99, 102, 241, 0.3);
+      color: #64748b;
+    }
+
+    [data-theme="light"] .theme-toggle:hover {
+      color: #1e1b4b;
+    }
+
+    [data-theme="light"] .format-pill {
+      background: rgba(99, 102, 241, 0.08);
+      border-color: rgba(99, 102, 241, 0.2);
+      color: #4f46e5;
+    }
+
+    [data-theme="light"] .format-pill:hover {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: rgba(99, 102, 241, 0.45);
+    }
+
+    [data-theme="light"] .stat-pill {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgba(99, 102, 241, 0.18);
+      color: #1e1b4b;
+    }
+
+    [data-theme="light"] .floating-badge {
+      background: rgba(255, 255, 255, 0.98);
+      border-color: rgba(99, 102, 241, 0.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    [data-theme="light"] .compliance-badge {
+      background: rgba(16, 185, 129, 0.08);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+
+    [data-theme="light"] .border-border { border-color: rgba(99, 102, 241, 0.18) !important; }
+
+    [data-theme="light"] .nav-link.active { color: #6366f1; }
+
+    [data-theme="light"] .gradient-text-white {
+      background: linear-gradient(135deg, #1e1b4b 0%, #4f46e5 50%, #7c3aed 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* orb adjustments for light mode */
+    [data-theme="light"] .orb { opacity: 0.06 !important; }
+
+    /* ===== BENTO GRID ===== */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 180px;
+      gap: 14px;
+    }
+
+    .bento-card {
+      border-radius: 20px;
+      padding: 1.4rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bento-card:hover {
+      transform: scale(1.02);
+    }
+
+    /* Explicit grid placement */
+    .bento-formats   { grid-column: 1 / 3; grid-row: 1 / 3; }
+    .bento-pii       { grid-column: 3 / 4; grid-row: 1 / 2; }
+    .bento-local     { grid-column: 4 / 5; grid-row: 1 / 2; }
+    .bento-research  { grid-column: 3 / 5; grid-row: 2 / 3; }
+    .bento-merge     { grid-column: 1 / 2; grid-row: 3 / 4; }
+    .bento-cloud     { grid-column: 2 / 3; grid-row: 3 / 4; }
+    .bento-custom    { grid-column: 3 / 4; grid-row: 3 / 4; }
+    .bento-cta       { grid-column: 4 / 5; grid-row: 3 / 4; }
+
+    @media (max-width: 1024px) {
+      .bento-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+      .bento-formats, .bento-pii, .bento-local, .bento-research,
+      .bento-merge, .bento-cloud, .bento-custom, .bento-cta {
+        grid-column: auto; grid-row: auto;
+      }
+      .bento-formats { grid-column: span 2; grid-row: span 2; }
+      .bento-research { grid-column: span 2; }
+    }
+
+    @media (max-width: 640px) {
+      .bento-grid { grid-template-columns: 1fr; grid-auto-rows: auto; }
+      .bento-formats { grid-column: span 1; grid-row: span 1; min-height: 220px; }
+      .bento-research { grid-column: span 1; }
+      .bento-card { min-height: 160px; }
+    }
+
+    [data-theme="light"] .bento-card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(99, 102, 241, 0.15);
+      box-shadow: 0 2px 12px rgba(99, 102, 241, 0.06);
+    }
+
+    [data-theme="light"] .bento-card:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 0 24px rgba(99, 102, 241, 0.1);
+    }
+
+    /* Nav orange CTA */
+    .btn-orange {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      box-shadow: 0 0 18px rgba(249,115,22,0.35), 0 4px 14px rgba(0,0,0,0.3);
+      transition: all 0.3s ease;
+    }
+    .btn-orange:hover {
+      box-shadow: 0 0 32px rgba(249,115,22,0.5), 0 8px 22px rgba(0,0,0,0.4);
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body class="bg-grid">
@@ -319,8 +555,20 @@
 
         <!-- CTA -->
         <div class="hidden md:flex items-center gap-3">
-          <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer"
-            class="btn-glow text-white text-sm font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2">
+          <!-- Theme toggle -->
+          <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle light/dark theme">
+            <svg id="theme-icon-moon" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+            </svg>
+            <svg id="theme-icon-sun" class="w-3.5 h-3.5 hidden" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+            </svg>
+            <div class="toggle-track">
+              <div class="toggle-thumb"></div>
+            </div>
+          </button>
+          <a href="https://chromewebstore.google.com/detail/gemini-export-studio/oondabmhecdagnndhjhgnhhhnninpagc" target="_blank" rel="noopener noreferrer"
+            class="btn-orange text-white text-sm font-semibold px-5 py-2.5 rounded-xl inline-flex items-center gap-2">
             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/>
             </svg>
@@ -347,8 +595,20 @@
           <a href="#privacy" class="text-sm text-textMuted hover:text-textPrimary transition-colors">Privacy</a>
           <a href="#faq" class="text-sm text-textMuted hover:text-textPrimary transition-colors">FAQ</a>
           <a href="privacy.html" class="text-sm text-textMuted hover:text-textPrimary transition-colors">Privacy Policy</a>
-          <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer"
-            class="btn-glow text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">
+          <button id="theme-toggle-mobile" class="theme-toggle w-fit" aria-label="Toggle light/dark theme">
+            <svg id="theme-icon-moon-mobile" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+            </svg>
+            <svg id="theme-icon-sun-mobile" class="w-3.5 h-3.5 hidden" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+            </svg>
+            <div class="toggle-track">
+              <div class="toggle-thumb"></div>
+            </div>
+            <span id="theme-label-mobile" class="text-xs">Light mode</span>
+          </button>
+          <a href="https://chromewebstore.google.com/detail/gemini-export-studio/oondabmhecdagnndhjhgnhhhnninpagc" target="_blank" rel="noopener noreferrer"
+            class="btn-orange text-white text-sm font-semibold px-5 py-3 rounded-xl text-center">
             Add to Chrome — Free
           </a>
         </div>
@@ -357,139 +617,71 @@
   </nav>
 
   <!-- ===== HERO SECTION ===== -->
-  <section id="hero" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
-    <!-- Radial gradient backdrop -->
+  <section id="hero" class="relative flex items-center pt-24 pb-10 overflow-hidden">
     <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(99,102,241,0.15) 0%, transparent 70%);"></div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32 w-full">
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+      <div class="text-center reveal">
 
-        <!-- Left: Copy -->
-        <div class="reveal">
-          <!-- Eyebrow badge -->
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 mb-6">
-            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-            <span class="text-xs font-mono text-indigo-400 font-medium">Chrome Extension · v1.0.0 · Free</span>
-          </div>
+        <!-- Eyebrow badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 mb-6">
+          <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+          <span class="text-xs font-mono text-indigo-400 font-medium">Chrome Extension · v1.0.0 · Free</span>
+        </div>
 
-          <!-- H1 -->
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.08] tracking-tight mb-6">
-            Export Your Gemini Chats.<br />
-            <span class="gradient-text">Any Format. Zero Servers.</span>
-          </h1>
+        <!-- H1 -->
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.08] tracking-tight mb-6">
+          Export Your Gemini Chats.<br />
+          <span class="gradient-text">Any Format. Zero Servers.</span>
+        </h1>
 
-          <!-- Subheadline -->
-          <p class="text-lg text-textMuted leading-relaxed mb-8 max-w-xl">
-            The only Chrome extension that exports your Gemini AI conversations to PDF, Markdown, JSON, CSV, Plain Text, or Image — completely locally, with no account required.
-          </p>
+        <!-- Subheadline -->
+        <p class="text-lg text-textMuted leading-relaxed mb-10 max-w-2xl mx-auto">
+          The only Chrome extension that exports Gemini AI conversations to PDF, Markdown, JSON, CSV, Plain Text, or Image — 100% locally, no account required.
+        </p>
 
-          <!-- Format pills -->
-          <div class="flex flex-wrap gap-2 mb-10">
-            <span class="format-pill">📄 PDF</span>
-            <span class="format-pill">⬇️ Markdown</span>
-            <span class="format-pill">📝 Plain Text</span>
-            <span class="format-pill">{ } JSON</span>
-            <span class="format-pill">📊 CSV</span>
-            <span class="format-pill">🖼️ Image</span>
-          </div>
-
-          <!-- CTA buttons -->
-          <div class="flex flex-col sm:flex-row gap-4 mb-8">
-            <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer"
-              class="btn-glow text-white font-bold px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-3 text-base">
-              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/>
-              </svg>
-              Add to Chrome — Free
-            </a>
-            <a href="#features"
-              class="btn-ghost text-textPrimary font-semibold px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-2 text-base">
-              See Features
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-              </svg>
-            </a>
-          </div>
-
-          <!-- Trust line -->
-          <div class="flex items-center gap-2 text-sm text-textMuted">
-            <svg class="w-4 h-4 text-success flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        <!-- CTA buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <a href="https://chromewebstore.google.com/detail/gemini-export-studio/oondabmhecdagnndhjhgnhhhnninpagc" target="_blank" rel="noopener noreferrer"
+            class="btn-glow text-white font-bold px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-3 text-base">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/>
             </svg>
-            <span>Zero data leaves your device · No account needed · GDPR ready</span>
-          </div>
+            Add to Chrome — It's Free
+          </a>
+          <a href="#features" class="btn-ghost text-textPrimary font-semibold px-8 py-4 rounded-2xl inline-flex items-center justify-center gap-2 text-base">
+            See All Features
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </a>
         </div>
 
-        <!-- Right: Product image -->
-        <div class="reveal-right relative flex justify-center lg:justify-end">
-          <div class="relative" style="transform: rotate(2deg);">
-            <img
-              src="assets/Gemini_Generated_Image_rxt1oarxt1oarxt1_with_bgc.png"
-              alt="Gemini Export Studio interface"
-              class="hero-image-glow rounded-2xl w-full max-w-lg"
-              loading="eager"
-            />
-            <!-- Floating overlay badge -->
-            <div class="floating-badge" style="bottom: -16px; left: -24px; transform: rotate(-1deg);">
-              <img
-                src="assets/Gemini_Generated_Image_jzkklgjzkklgjzkk_with_bgc.png"
-                alt="Export format options"
-                class="rounded-xl w-40 sm:w-48"
-                loading="eager"
-              />
-            </div>
-          </div>
+        <!-- Trust line -->
+        <div class="flex items-center justify-center gap-2 text-sm text-textMuted mb-8">
+          <svg class="w-4 h-4 text-success flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+          <span>Zero data leaves your device · No account needed · GDPR ready · 100% Free</span>
+        </div>
+
+        <!-- Stats pills -->
+        <div class="flex flex-wrap justify-center gap-3">
+          <div class="stat-pill"><span class="text-primary font-mono font-bold">6</span><span class="text-textMuted">Export Formats</span></div>
+          <div class="stat-pill"><span class="text-success font-mono font-bold">100%</span><span class="text-textMuted">Local Processing</span></div>
+          <div class="stat-pill"><span class="text-violet font-mono font-bold">20+</span><span class="text-textMuted">Merged Chats</span></div>
+          <div class="stat-pill"><span class="text-success font-mono font-bold">✓</span><span class="text-textMuted">GDPR Ready</span></div>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- ===== OVERVIEW BANNER ===== -->
-  <section class="py-16 overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="reveal mb-10">
-        <img
-          src="assets/Gemini_Generated_Image_94undh94undh94un_with_bgc.png"
-          alt="Gemini Export Studio overview"
-          class="w-full rounded-2xl border border-border"
-          style="box-shadow: 0 0 40px rgba(99,102,241,0.1), 0 24px 48px rgba(0,0,0,0.4);"
-          loading="lazy"
-        />
-      </div>
-
-      <!-- Stats row -->
-      <div class="reveal flex flex-wrap justify-center gap-3">
-        <div class="stat-pill">
-          <span class="text-primary font-mono font-bold">6</span>
-          <span class="text-textMuted">Export Formats</span>
-        </div>
-        <div class="stat-pill">
-          <span class="text-success font-mono font-bold">100%</span>
-          <span class="text-textMuted">Local Processing</span>
-        </div>
-        <div class="stat-pill">
-          <span class="text-violet font-mono font-bold">20+</span>
-          <span class="text-textMuted">Merged Chats</span>
-        </div>
-        <div class="stat-pill">
-          <svg class="w-4 h-4 text-cyan" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/></svg>
-          <span class="text-textMuted">gemini.google.com</span>
-        </div>
-        <div class="stat-pill">
-          <span class="text-success font-mono font-bold">✓</span>
-          <span class="text-textMuted">GDPR Ready</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== FEATURE BLOCKS ===== -->
-  <section id="features" class="py-20">
+  <!-- ===== BENTO FEATURES ===== -->
+  <section id="features" class="py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <!-- Section header -->
-      <div class="text-center mb-20 reveal">
+      <div class="text-center mb-10 reveal">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/25 mb-4">
           <span class="text-xs font-mono text-indigo-400 font-medium">Everything You Need</span>
         </div>
@@ -497,146 +689,125 @@
         <p class="text-textMuted max-w-2xl mx-auto">Every feature built with one principle: your data stays yours.</p>
       </div>
 
-      <!-- Feature 1: 6 Export Formats (image right) -->
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
-        <div class="reveal-left order-2 lg:order-1">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-4">
-            <span class="text-xs font-mono text-indigo-400">Export Formats</span>
-          </div>
-          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">6 Formats. Every Use Case Covered.</h2>
-          <p class="text-textMuted mb-6 leading-relaxed">Whether you need a polished document, a developer-friendly data file, or a shareable image — we have the format for you. Export individual turns or entire conversations with a single click.</p>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span><strong class="text-textPrimary">PDF</strong> — Publication-ready with preserved formatting and headers</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span><strong class="text-textPrimary">Markdown</strong> — Perfect for notes apps like Obsidian, Notion, Bear</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span><strong class="text-textPrimary">JSON</strong> — Structured data with full metadata for developers</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span><strong class="text-textPrimary">CSV, Plain Text, Image</strong> — For every other workflow</span></li>
-          </ul>
-        </div>
-        <div class="reveal-right order-1 lg:order-2">
-          <img src="assets/Gemini_Generated_Image_jzkklgjzkklgjzkk_with_bgc.png" alt="6 export formats" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(99,102,241,0.08),0 16px 40px rgba(0,0,0,0.4);" />
-        </div>
-      </div>
+      <div class="bento-grid">
 
-      <!-- Feature 2: Local Processing (image left) -->
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
-        <div class="reveal-left">
-          <img src="assets/Gemini_Generated_Image_rtx4xortx4xortx4_with_bgc.png" alt="100% local processing" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(16,185,129,0.08),0 16px 40px rgba(0,0,0,0.4);" />
-        </div>
-        <div class="reveal-right">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 mb-4">
-            <span class="text-xs font-mono text-emerald-400">100% Local</span>
+        <!-- Card 1: 6 Export Formats (2×2) -->
+        <div class="bento-card bento-formats glass-card reveal" style="border-color:rgba(99,102,241,0.3);">
+          <div class="flex items-start justify-between mb-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/25 flex items-center justify-center flex-shrink-0">
+              <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <span class="text-xs font-mono px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">6 formats</span>
           </div>
-          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Your Conversations Never Leave Your Device.</h2>
-          <p class="text-textMuted mb-6 leading-relaxed">All processing happens entirely in your browser. No servers receive your chat data. No API calls with your content. No logging, no telemetry, no analytics on your conversations.</p>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-success mt-0.5">▸</span><span>All export logic runs in the Chrome extension sandbox</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-success mt-0.5">▸</span><span>PDF generation uses client-side libraries (jsPDF + html2canvas)</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-success mt-0.5">▸</span><span>Image capture is done via browser screenshot APIs</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-success mt-0.5">▸</span><span>No account, login, or subscription ever required</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Feature 3: Deep Research (image right) -->
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
-        <div class="reveal-left order-2 lg:order-1">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-4">
-            <span class="text-xs font-mono text-cyan-400">Deep Research</span>
+          <h3 class="font-bold text-textPrimary text-lg mb-2">6 Export Formats</h3>
+          <p class="text-textMuted text-sm mb-5 leading-relaxed">Every format you need — from polished PDF reports to developer-ready JSON and shareable images.</p>
+          <div class="grid grid-cols-3 gap-2">
+            <div class="text-center py-2 px-1 rounded-lg" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);">
+              <div class="text-xs font-mono font-bold text-indigo-400">PDF</div>
+            </div>
+            <div class="text-center py-2 px-1 rounded-lg" style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);">
+              <div class="text-xs font-mono font-bold" style="color:#a78bfa;">MD</div>
+            </div>
+            <div class="text-center py-2 px-1 rounded-lg" style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);">
+              <div class="text-xs font-mono font-bold text-cyan">JSON</div>
+            </div>
+            <div class="text-center py-2 px-1 rounded-lg" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">
+              <div class="text-xs font-mono font-bold text-success">CSV</div>
+            </div>
+            <div class="text-center py-2 px-1 rounded-lg" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);">
+              <div class="text-xs font-mono font-bold text-indigo-400">TXT</div>
+            </div>
+            <div class="text-center py-2 px-1 rounded-lg" style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);">
+              <div class="text-xs font-mono font-bold" style="color:#a78bfa;">IMG</div>
+            </div>
           </div>
-          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Export Deep Research with Full Citations.</h2>
-          <p class="text-textMuted mb-6 leading-relaxed">Gemini's Deep Research mode generates comprehensive reports with citations. Export them fully intact — sources, links, and all — in any format you need.</p>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Preserves all source links and citations</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Maintains original document structure and sections</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Export research reports as professional PDFs</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>JSON output for programmatic citation processing</span></li>
-          </ul>
         </div>
-        <div class="reveal-right order-1 lg:order-2">
-          <img src="assets/Gemini_Generated_Image_qg90rbqg90rbqg90_with_bgc.png" alt="Deep research export with citations" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(6,182,212,0.08),0 16px 40px rgba(0,0,0,0.4);" />
-        </div>
-      </div>
 
-      <!-- Feature 4: PII Scrubbing (image left) -->
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
-        <div class="reveal-left">
-          <img src="assets/Gemini_Generated_Image_r3b8oar3b8oar3b8_with_bgc.png" alt="PII scrubbing and data safety" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(139,92,246,0.08),0 16px 40px rgba(0,0,0,0.4);" />
-        </div>
-        <div class="reveal-right">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 mb-4">
-            <span class="text-xs font-mono text-violet-400">PII Scrubbing</span>
+        <!-- Card 2: PII Scrubbing (1×1) -->
+        <div class="bento-card bento-pii glass-card" style="border-color:rgba(139,92,246,0.25);">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.25);">
+            <svg class="w-5 h-5 text-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"/>
+            </svg>
           </div>
-          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Redact Sensitive Data Before Sharing.</h2>
-          <p class="text-textMuted mb-6 leading-relaxed">Automatically detect and redact personally identifiable information before exporting. Share your AI conversations safely without leaking names, emails, or phone numbers.</p>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Detects emails, phone numbers, names, and addresses</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Redaction preview before finalizing export</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Custom redaction rules for your specific data patterns</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Enterprise-ready compliance export workflow</span></li>
-          </ul>
+          <h3 class="font-bold text-textPrimary mb-1">PII Scrubbing</h3>
+          <p class="text-textMuted text-xs leading-relaxed">Auto-redact emails, phone numbers &amp; names before sharing.</p>
         </div>
-      </div>
 
-      <!-- Feature 5: Merge Multiple Chats (image right) -->
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
-        <div class="reveal-left order-2 lg:order-1">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-4">
-            <span class="text-xs font-mono text-indigo-400">Chat Merging</span>
+        <!-- Card 3: 100% Local (1×1) -->
+        <div class="bento-card bento-local glass-card" style="border-color:rgba(16,185,129,0.25);">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(16,185,129,0.12);border:1px solid rgba(16,185,129,0.25);">
+            <svg class="w-5 h-5 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
           </div>
-          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Merge Up to 20 Chats Into One Document.</h2>
-          <p class="text-textMuted mb-6 leading-relaxed">Research a topic across multiple Gemini conversations? Merge them into a single, well-structured document. Perfect for compiling research, project notes, or building knowledge bases.</p>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span>Queue up to 20 conversations for merging</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span>Drag-to-reorder merge sequence</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span>Smart deduplication of repeated context</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-primary mt-0.5">▸</span><span>Merge queue saved between browser sessions</span></li>
-          </ul>
+          <h3 class="font-bold text-textPrimary mb-1">100% Local</h3>
+          <p class="text-textMuted text-xs leading-relaxed">Zero data leaves your device. No servers, ever.</p>
         </div>
-        <div class="reveal-right order-1 lg:order-2">
-          <img src="assets/Gemini_Generated_Image_rvuvu7rvuvu7rvuv_with_bgc.png" alt="Merge multiple chats" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(99,102,241,0.08),0 16px 40px rgba(0,0,0,0.4);" />
-        </div>
-      </div>
 
-      <!-- Feature 6: Cloud Sync (image left) -->
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-28">
-        <div class="reveal-left">
-          <img src="assets/Gemini_Generated_Image_o3h6gmo3h6gmo3h6_with_bgc.png" alt="Google Drive and Obsidian sync" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(6,182,212,0.08),0 16px 40px rgba(0,0,0,0.4);" />
-        </div>
-        <div class="reveal-right">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 mb-4">
-            <span class="text-xs font-mono text-cyan-400">Cloud Sync</span>
+        <!-- Card 4: Deep Research (2×1) -->
+        <div class="bento-card bento-research glass-card" style="border-color:rgba(6,182,212,0.25);">
+          <div class="flex items-start gap-4 h-full">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);">
+              <svg class="w-5 h-5 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="font-bold text-textPrimary mb-1">Deep Research Export</h3>
+              <p class="text-textMuted text-sm leading-relaxed">Export Gemini Deep Research reports with all source links and citations fully preserved.</p>
+            </div>
           </div>
-          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Sync to Google Drive or Your Obsidian Vault.</h2>
-          <p class="text-textMuted mb-6 leading-relaxed">Connect your Google Drive or local Obsidian vault to automatically save exported conversations. Your AI research becomes a living part of your personal knowledge base.</p>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>One-click Google Drive integration with OAuth</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Auto-organize into folders by date or topic</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>Obsidian-compatible Markdown with YAML frontmatter</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-cyan mt-0.5">▸</span><span>File naming templates you control</span></li>
-          </ul>
         </div>
-      </div>
 
-      <!-- Feature 7: Document Customization (image right) -->
-      <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-        <div class="reveal-left order-2 lg:order-1">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 mb-4">
-            <span class="text-xs font-mono text-violet-400">Customization</span>
+        <!-- Card 5: Merge 20 Chats (1×1) -->
+        <div class="bento-card bento-merge glass-card" style="border-color:rgba(99,102,241,0.25);">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.25);">
+            <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+            </svg>
           </div>
-          <h2 class="text-3xl sm:text-4xl font-bold text-textPrimary mb-4">Make Every Export Look Exactly Right.</h2>
-          <p class="text-textMuted mb-6 leading-relaxed">Customize fonts, colors, headers, footers, and layouts for your exports. Create templates for different use cases — client reports, personal notes, or academic research.</p>
-          <ul class="space-y-3">
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Custom PDF page sizes, fonts, and margins</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Add your logo or branding to exported documents</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Save templates for repeated workflows</span></li>
-            <li class="flex items-start gap-3 text-textMuted"><span class="text-violet mt-0.5">▸</span><span>Timestamp and title formatting options</span></li>
-          </ul>
+          <h3 class="font-bold text-textPrimary mb-1">Merge 20 Chats</h3>
+          <p class="text-textMuted text-xs leading-relaxed">Combine multiple conversations into one document.</p>
         </div>
-        <div class="reveal-right order-1 lg:order-2">
-          <img src="assets/Gemini_Generated_Image_1t7rv91t7rv91t7r_with_bgc.png" alt="Document customization" class="rounded-2xl w-full border border-border" loading="lazy" style="box-shadow:0 0 30px rgba(139,92,246,0.08),0 16px 40px rgba(0,0,0,0.4);" />
-        </div>
-      </div>
 
+        <!-- Card 6: Cloud Sync (1×1) -->
+        <div class="bento-card bento-cloud glass-card" style="border-color:rgba(6,182,212,0.25);">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(6,182,212,0.12);border:1px solid rgba(6,182,212,0.25);">
+            <svg class="w-5 h-5 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-textPrimary mb-1">Cloud Sync</h3>
+          <p class="text-textMuted text-xs leading-relaxed">Google Drive + Obsidian vault integration.</p>
+        </div>
+
+        <!-- Card 7: Document Customization (1×1) -->
+        <div class="bento-card bento-custom glass-card" style="border-color:rgba(139,92,246,0.25);">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style="background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.25);">
+            <svg class="w-5 h-5 text-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+            </svg>
+          </div>
+          <h3 class="font-bold text-textPrimary mb-1">Custom Exports</h3>
+          <p class="text-textMuted text-xs leading-relaxed">Custom fonts, logos, page sizes, and templates.</p>
+        </div>
+
+        <!-- Card 8: Install CTA (1×1) -->
+        <div class="bento-card bento-cta" style="background:linear-gradient(135deg,rgba(99,102,241,0.18),rgba(139,92,246,0.14));border:1px solid rgba(99,102,241,0.4);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+          <svg class="w-9 h-9 text-primary mb-2" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/>
+          </svg>
+          <p class="text-textPrimary font-semibold text-sm mb-3">Ready to try?</p>
+          <a href="https://chromewebstore.google.com/detail/gemini-export-studio/oondabmhecdagnndhjhgnhhhnninpagc" target="_blank" rel="noopener noreferrer"
+            class="btn-glow text-white text-xs font-bold px-4 py-2 rounded-xl inline-flex items-center gap-1.5 cursor-pointer">
+            Add to Chrome
+          </a>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -656,7 +827,9 @@
 
         <!-- PDF -->
         <div class="glass-card rounded-2xl p-6 reveal format-card">
-          <div class="text-4xl mb-4">📄</div>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2zM9 13h6M9 17h4"/></svg>
+          </div>
           <div class="font-mono text-lg font-bold text-textPrimary mb-2">PDF</div>
           <p class="text-textMuted text-sm mb-4 leading-relaxed">Publication-ready documents with preserved formatting, code blocks, and headers.</p>
           <span class="inline-block text-xs px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-mono">Best for: Reports, documentation, sharing</span>
@@ -664,7 +837,9 @@
 
         <!-- Markdown -->
         <div class="glass-card rounded-2xl p-6 reveal format-card">
-          <div class="text-4xl mb-4">⬇️</div>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);">
+            <svg class="w-6 h-6 text-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14"/></svg>
+          </div>
           <div class="font-mono text-lg font-bold text-textPrimary mb-2">Markdown</div>
           <p class="text-textMuted text-sm mb-4 leading-relaxed">Clean .md files compatible with Obsidian, Notion, Bear, GitHub, and any note-taking app.</p>
           <span class="inline-block text-xs px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-mono">Best for: Note-taking, PKM, developers</span>
@@ -672,7 +847,9 @@
 
         <!-- Plain Text -->
         <div class="glass-card rounded-2xl p-6 reveal format-card">
-          <div class="text-4xl mb-4">📝</div>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.2);">
+            <svg class="w-6 h-6 text-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 10h16M4 14h12M4 18h8"/></svg>
+          </div>
           <div class="font-mono text-lg font-bold text-textPrimary mb-2">Plain Text</div>
           <p class="text-textMuted text-sm mb-4 leading-relaxed">Simple, universal .txt format. Works everywhere, forever. No formatting baggage.</p>
           <span class="inline-block text-xs px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 font-mono">Best for: Archives, universal compatibility</span>
@@ -680,7 +857,9 @@
 
         <!-- JSON -->
         <div class="glass-card rounded-2xl p-6 reveal format-card">
-          <div class="text-4xl mb-4">{ }</div>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);">
+            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16M8 8l-4 4 4 4M16 8l4 4-4 4"/></svg>
+          </div>
           <div class="font-mono text-lg font-bold text-textPrimary mb-2">JSON</div>
           <p class="text-textMuted text-sm mb-4 leading-relaxed">Full structured data with metadata, timestamps, turn counts, and source citations.</p>
           <span class="inline-block text-xs px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 font-mono">Best for: Developers, data analysis, APIs</span>
@@ -688,7 +867,9 @@
 
         <!-- CSV -->
         <div class="glass-card rounded-2xl p-6 reveal format-card">
-          <div class="text-4xl mb-4">📊</div>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);">
+            <svg class="w-6 h-6 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M3 14h18M10 3v18M14 3v18M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2z"/></svg>
+          </div>
           <div class="font-mono text-lg font-bold text-textPrimary mb-2">CSV</div>
           <p class="text-textMuted text-sm mb-4 leading-relaxed">Spreadsheet-ready format with each turn as a row. Import into Excel, Sheets, or any BI tool.</p>
           <span class="inline-block text-xs px-3 py-1 rounded-full bg-success/10 border border-success/20 text-success font-mono" style="border-color:rgba(16,185,129,0.2);color:#34d399;">Best for: Analysis, spreadsheets, business</span>
@@ -696,7 +877,9 @@
 
         <!-- Image -->
         <div class="glass-card rounded-2xl p-6 reveal format-card">
-          <div class="text-4xl mb-4">🖼️</div>
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.2);">
+            <svg class="w-6 h-6 text-violet" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          </div>
           <div class="font-mono text-lg font-bold text-textPrimary mb-2">Image</div>
           <p class="text-textMuted text-sm mb-4 leading-relaxed">High-resolution PNG snapshot of your chat. Perfect for social sharing or visual references.</p>
           <span class="inline-block text-xs px-3 py-1 rounded-full bg-violet-500/10 border border-violet-500/20 text-violet-400 font-mono">Best for: Social, presentations, quick share</span>
@@ -925,7 +1108,7 @@
         <!-- FAQ 6 -->
         <div class="glass-card rounded-xl overflow-hidden reveal">
           <button class="faq-btn w-full text-left px-6 py-5 flex items-center justify-between gap-4" onclick="toggleFaq(this)">
-            <span class="font-semibold text-textPrimary text-sm">Does it work with Gemini Advanced?</span>
+            <span class="font-semibold text-textPrimary text-sm">Does it work with all versions of Gemini on the browser?</span>
             <svg class="faq-arrow w-5 h-5 text-textMuted flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
             </svg>
@@ -1010,7 +1193,7 @@
           Join thousands of users who have taken control of their AI conversations. Free, private, and powerful.
         </p>
 
-        <a href="https://chrome.google.com/webstore" target="_blank" rel="noopener noreferrer"
+        <a href="https://chromewebstore.google.com/detail/gemini-export-studio/oondabmhecdagnndhjhgnhhhnninpagc" target="_blank" rel="noopener noreferrer"
           class="btn-glow text-white font-bold px-10 py-5 rounded-2xl inline-flex items-center gap-3 text-lg">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0C8.21 0 4.831 1.757 2.632 4.501l3.953 6.848A5.454 5.454 0 0 1 12 6.545h10.691A12 12 0 0 0 12 0zM1.931 5.47A11.943 11.943 0 0 0 0 12c0 6.012 4.42 10.991 10.189 11.864l3.953-6.847a5.45 5.45 0 0 1-6.865-2.29zm13.342 2.166a5.446 5.446 0 0 1 1.45 7.09l.002.001h-.002l-5.344 9.257c.206.01.413.016.621.016 6.627 0 12-5.373 12-12 0-1.54-.29-3.011-.818-4.364zM12 8.182a3.818 3.818 0 1 0 0 7.636 3.818 3.818 0 0 0 0-7.636z"/>
@@ -1045,6 +1228,7 @@
           <a href="#formats" class="hover:text-textPrimary transition-colors">Formats</a>
           <a href="#faq" class="hover:text-textPrimary transition-colors">FAQ</a>
           <a href="privacy.html" class="hover:text-textPrimary transition-colors">Privacy Policy</a>
+          <a href="https://chromewebstore.google.com/detail/gemini-export-studio/oondabmhecdagnndhjhgnhhhnninpagc" target="_blank" rel="noopener noreferrer" class="hover:text-textPrimary transition-colors">Install Extension</a>
         </div>
 
         <!-- Disclaimer -->
@@ -1072,9 +1256,12 @@
       revealObserver.observe(el);
     });
 
-    // 2. Stagger animation on format cards
+    // 2. Stagger animation on format cards and bento cards
     document.querySelectorAll('#formats-grid .format-card').forEach((card, i) => {
       card.style.transitionDelay = `${i * 80}ms`;
+    });
+    document.querySelectorAll('.bento-card').forEach((card, i) => {
+      card.style.transitionDelay = `${i * 60}ms`;
     });
 
     // 3. Nav scroll state
@@ -1151,6 +1338,49 @@
     }, { threshold: 0.3 });
 
     sections.forEach(section => sectionObserver.observe(section));
+
+    // 7. Theme toggle
+    const html = document.documentElement;
+    const toggleBtn = document.getElementById('theme-toggle-btn');
+    const toggleMobile = document.getElementById('theme-toggle-mobile');
+    const moonIcon = document.getElementById('theme-icon-moon');
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIconMobile = document.getElementById('theme-icon-moon-mobile');
+    const sunIconMobile = document.getElementById('theme-icon-sun-mobile');
+    const labelMobile = document.getElementById('theme-label-mobile');
+
+    function applyTheme(theme) {
+      if (theme === 'light') {
+        html.setAttribute('data-theme', 'light');
+        moonIcon.classList.add('hidden');
+        sunIcon.classList.remove('hidden');
+        moonIconMobile.classList.add('hidden');
+        sunIconMobile.classList.remove('hidden');
+        if (labelMobile) labelMobile.textContent = 'Dark mode';
+      } else {
+        html.removeAttribute('data-theme');
+        moonIcon.classList.remove('hidden');
+        sunIcon.classList.add('hidden');
+        moonIconMobile.classList.remove('hidden');
+        sunIconMobile.classList.add('hidden');
+        if (labelMobile) labelMobile.textContent = 'Light mode';
+      }
+    }
+
+    function toggleTheme() {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      localStorage.setItem('theme', next);
+      applyTheme(next);
+    }
+
+    // Init from saved preference or system preference
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(saved || (prefersDark ? 'dark' : 'light'));
+
+    toggleBtn.addEventListener('click', toggleTheme);
+    toggleMobile.addEventListener('click', toggleTheme);
   </script>
 
 </body>
