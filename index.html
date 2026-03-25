@@ -455,6 +455,50 @@
     /* orb adjustments for light mode */
     [data-theme="light"] .orb { opacity: 0.06 !important; }
 
+    /* ===== FEATURE CHIPS ===== */
+    .feature-chip {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 16px;
+      background: rgba(19, 19, 31, 0.7);
+      border: 1px solid rgba(42, 42, 69, 0.7);
+      border-radius: 14px;
+      font-size: 0.875rem;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .feature-chip:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      background: rgba(99, 102, 241, 0.06);
+    }
+    .feature-chip .chip-emoji {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .feature-chip .chip-title {
+      color: #e2e8f0;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .feature-chip .chip-desc {
+      color: #64748b;
+      font-size: 0.8rem;
+      margin-top: 1px;
+    }
+    [data-theme="light"] .feature-chip {
+      background: rgba(255, 255, 255, 0.85);
+      border-color: rgba(99, 102, 241, 0.15);
+      box-shadow: 0 1px 6px rgba(99, 102, 241, 0.06);
+    }
+    [data-theme="light"] .feature-chip:hover {
+      border-color: rgba(99, 102, 241, 0.4);
+      background: rgba(99, 102, 241, 0.04);
+    }
+    [data-theme="light"] .feature-chip .chip-title { color: #1e1b4b; }
+    [data-theme="light"] .feature-chip .chip-desc { color: #64748b; }
+    [data-theme="light"] .highlights-intro { color: #475569; }
+
     /* ===== BENTO GRID ===== */
     .bento-grid {
       display: grid;
@@ -674,6 +718,91 @@
         </div>
 
       </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURE HIGHLIGHTS ===== -->
+  <section class="py-12 border-y border-border/40">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <p class="text-center text-textMuted highlights-intro leading-relaxed mb-8 max-w-3xl mx-auto">
+        <strong class="text-textPrimary">Gemini Export Studio</strong> lets you export Google Gemini conversations in PDF, Markdown, JSON, CSV, Text, or Image — completely free, with unlimited exports, no watermarks, and 100% local processing.
+        <span class="block mt-1 text-sm font-medium">Export Gemini chats your way — fast, flexible, and fully private. 🚀</span>
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 reveal">
+        <div class="feature-chip">
+          <span class="chip-emoji">✅</span>
+          <div>
+            <div class="chip-title">100% Free</div>
+            <div class="chip-desc">No paywalls, no limits, no watermarks — ever</div>
+          </div>
+        </div>
+        <div class="feature-chip">
+          <span class="chip-emoji">📄</span>
+          <div>
+            <div class="chip-title">6 Export Formats</div>
+            <div class="chip-desc">PDF, Markdown, JSON, CSV, Text, Image</div>
+          </div>
+        </div>
+        <div class="feature-chip">
+          <span class="chip-emoji">🔒</span>
+          <div>
+            <div class="chip-title">Local Processing Only</div>
+            <div class="chip-desc">Your data never leaves your device</div>
+          </div>
+        </div>
+        <div class="feature-chip">
+          <span class="chip-emoji">🎯</span>
+          <div>
+            <div class="chip-title">Selective Export</div>
+            <div class="chip-desc">Choose exactly which messages to include</div>
+          </div>
+        </div>
+        <div class="feature-chip">
+          <span class="chip-emoji">🧠</span>
+          <div>
+            <div class="chip-title">Deep Research Support</div>
+            <div class="chip-desc">Capture sources, panels, and insights</div>
+          </div>
+        </div>
+        <div class="feature-chip">
+          <span class="chip-emoji">🔗</span>
+          <div>
+            <div class="chip-title">Merge Chats</div>
+            <div class="chip-desc">Combine up to 20 conversations into one</div>
+          </div>
+        </div>
+        <div class="feature-chip">
+          <span class="chip-emoji">☁️</span>
+          <div>
+            <div class="chip-title">Optional Sync</div>
+            <div class="chip-desc">Export to Google Drive or Obsidian</div>
+          </div>
+        </div>
+        <div class="feature-chip">
+          <span class="chip-emoji">🛡️</span>
+          <div>
+            <div class="chip-title">PII Protection</div>
+            <div class="chip-desc">Redact sensitive data automatically</div>
+          </div>
+        </div>
+        <div class="feature-chip">
+          <span class="chip-emoji">⚡</span>
+          <div>
+            <div class="chip-title">Clean &amp; Accurate Exports</div>
+            <div class="chip-desc">Preserves formatting, code, and tables</div>
+          </div>
+        </div>
+        <div class="feature-chip">
+          <span class="chip-emoji">🖱️</span>
+          <div>
+            <div class="chip-title">One-Click UI</div>
+            <div class="chip-desc">Simple floating button + side panel</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
