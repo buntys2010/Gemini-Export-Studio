@@ -705,7 +705,7 @@
 
         <!-- Product Hunt badge -->
         <div class="flex justify-center mb-6">
-          <a href="https://www.producthunt.com/posts/gemini-export-studio/embed" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.producthunt.com/products/gemini-export-studio?embed=true&utm_source=embed&utm_medium=post_embed" target="_blank" rel="noopener noreferrer">
             <img alt="Gemini Export Studio - Export Gemini chats to PDF, Markdown, JSON, CSV | Product Hunt" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1107293&theme=dark&t=1774696474446" width="250" height="54" style="width:250px;height:54px;" />
           </a>
         </div>
@@ -1301,10 +1301,15 @@
     </div>
   </section>
 
-  <!-- ===== PRODUCT HUNT SECTION ===== -->
-  <section class="py-10 border-t border-border">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-4">
-      <p class="text-sm font-medium text-textMuted uppercase tracking-widest">Featured on</p>
+  <!-- ===== SUPPORT SECTION ===== -->
+  <section class="py-14 border-t border-border">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-6 text-center">
+      <h2 class="text-2xl sm:text-3xl font-bold gradient-text-white">Saved you $2/month on paid plugins?</h2>
+      <p class="text-textMuted text-base leading-relaxed max-w-lg">
+        Gemini Export Studio is 100% free with no limits. If it replaced a paid tool for you, consider buying me a coffee to keep it that way.
+      </p>
+
+      <!-- Product Hunt card -->
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; border: 1px solid rgba(42,42,69,0.8); border-radius: 12px; padding: 20px; max-width: 500px; width: 100%; background: rgba(19,19,31,0.8); backdrop-filter: blur(16px);">
         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
           <img alt="Gemini Export Studio" src="https://ph-files.imgix.net/e87266cc-6c20-4893-9c10-d179c9becb5b.png?auto=format&fit=crop&w=80&h=80" style="width: 64px; height: 64px; border-radius: 8px; object-fit: cover; flex-shrink: 0;" />
@@ -1315,6 +1320,8 @@
         </div>
         <a href="https://www.producthunt.com/products/gemini-export-studio?embed=true&utm_source=embed&utm_medium=post_embed" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 4px; margin-top: 12px; padding: 8px 16px; background: #ff6154; color: #ffffff; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 600;">Check it out on Product Hunt →</a>
       </div>
+
+      <p class="text-textMuted text-sm">An upvote on Product Hunt or a small tip on Ko-fi goes a long way!</p>
     </div>
   </section>
 
@@ -1491,6 +1498,17 @@
 
     toggleBtn.addEventListener('click', toggleTheme);
     toggleMobile.addEventListener('click', toggleTheme);
+  </script>
+
+  <!-- Ko-fi floating widget -->
+  <script src='https://storage.ko-fi.com/cdn/scripts/overlay-widget.js'></script>
+  <script>
+    kofiWidgetOverlay.draw('buntyshah', {
+      'type': 'floating-chat',
+      'floating-chat.donateButton.text': 'Support me',
+      'floating-chat.donateButton.background-color': '#00b9fe',
+      'floating-chat.donateButton.text-color': '#fff'
+    });
   </script>
 
 </body>
